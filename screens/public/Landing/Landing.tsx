@@ -5,9 +5,7 @@ import { ThemeContext } from '../../../providers/Theme';
 const Landing: React.FunctionComponent = () => {
   const switchMapping = { light: true, dark: false };
   const tc = React.useContext(ThemeContext);
-  const [isChecked, setIsChecked] = React.useState<boolean>(
-    switchMapping[tc.colorScheme]
-  );
+  const [isChecked, setIsChecked] = React.useState<boolean>(switchMapping[tc.colorScheme]);
 
   const toggleColor = () => {
     tc.setColorScheme(tc.colorScheme === 'light' ? 'dark' : 'light');
@@ -15,28 +13,35 @@ const Landing: React.FunctionComponent = () => {
   };
 
   const LandingBox = () => (
-    <Box bgColor={tc.bgColorScheme} height='100%'>
-      <Box
-        flex={1}
-        alignItems='center'
-        justifyContent='center'
-        bgColor='transparent'
-      >
-        <Switch size='lg' isChecked={isChecked} onToggle={toggleColor} />
-        <Heading textAlign='center' color={tc.textColorScheme}>
+    <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme}>
+      <Box flex={0.1} alignSelf="flex-end" justifyContent="flex-end" bgColor="transparent" mr="4">
+        <Switch
+          size="lg"
+          isChecked={isChecked}
+          onToggle={toggleColor}
+          offTrackColor="warmGray.800"
+          offThumbColor="warmGray.600"
+          onTrackColor="warmGray.200"
+          onThumbColor="warmGray.600"
+        />
+      </Box>
+      <Box flex={0.8} alignSelf="flex-start" justifyContent="center" alignItems="center" bgColor="transparent">
+        <Heading textAlign="center" color={tc.textColorScheme} my="4">
           Welcome to one hundred days.
         </Heading>
         <Button
-          size='lg'
-          my='2'
+          size="lg"
+          w="200px"
+          my="4"
           bgColor={tc.btnColorScheme}
           _text={{ color: useContrastText(tc.btnColorScheme) }}
         >
           LOG IN
         </Button>
         <Button
-          size='lg'
-          my='2'
+          size="lg"
+          w="200px"
+          my="4"
           bgColor={tc.btnColorScheme}
           _text={{ color: useContrastText(tc.btnColorScheme) }}
         >
