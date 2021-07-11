@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Box, Heading, Button, Switch, useContrastText } from 'native-base';
+import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 
 const Landing: React.FunctionComponent = () => {
@@ -14,7 +15,17 @@ const Landing: React.FunctionComponent = () => {
 
   const LandingBox = () => (
     <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme}>
-      <Box flex={0.1} alignSelf="flex-end" justifyContent="flex-end" bgColor="transparent" mr="4">
+      <Box
+        flex={0.1}
+        justifyContent="space-between"
+        alignItems="center"
+        bgColor="transparent"
+        flexDirection="row"
+        flexWrap="nowrap"
+        width="100%"
+        px="20px"
+      >
+        <QuestionIcon color={tc.btnColorScheme} />
         <Switch
           size="lg"
           isChecked={isChecked}
@@ -27,7 +38,7 @@ const Landing: React.FunctionComponent = () => {
       </Box>
       <Box flex={0.8} alignSelf="flex-start" justifyContent="center" alignItems="center" bgColor="transparent">
         <Heading textAlign="center" color={tc.textColorScheme} my="4">
-          Welcome to one hundred days.
+          Welcome to one hundred days
         </Heading>
         <Button
           size="lg"
