@@ -58,6 +58,7 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
           my="4"
           bgColor={tc.btnColorScheme}
           _text={{ color: useContrastText(tc.btnColorScheme) }}
+          onPress={() => navigation.navigate('signIn')}
         >
           LOG IN
         </Button>
