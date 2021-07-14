@@ -2,8 +2,16 @@ import * as React from 'react';
 import { Box, Heading, Button, Switch, useContrastText } from 'native-base';
 import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../../Types/Navigation';
 
-const Landing: React.FunctionComponent = () => {
+type LandingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'landing'>;
+
+type Props = {
+  navigation: LandingScreenNavigationProp;
+};
+
+const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const switchMapping = { light: true, dark: false };
   const tc = React.useContext(ThemeContext);
   const [isChecked, setIsChecked] = React.useState<boolean>(switchMapping[tc.colorScheme]);
@@ -13,7 +21,11 @@ const Landing: React.FunctionComponent = () => {
     setIsChecked(switchMapping[tc.colorScheme]);
   };
 
-  const LandingBox = () => (
+  React.useEffect(() => {
+    setIsChecked(switchMapping[tc.colorScheme]);
+  }, []);
+
+  return (
     <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme}>
       <Box
         flex={0.1}
@@ -61,12 +73,6 @@ const Landing: React.FunctionComponent = () => {
       </Box>
     </Box>
   );
-
-  React.useEffect(() => {
-    setIsChecked(switchMapping[tc.colorScheme]);
-  }, []);
-
-  return <LandingBox />;
 };
 
 export default Landing;
