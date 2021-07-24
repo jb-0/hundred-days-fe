@@ -26,7 +26,7 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   }, []);
 
   return (
-    <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme}>
+    <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme} px="20px">
       <Box
         flex={0.1}
         justifyContent="space-between"
@@ -35,7 +35,6 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
         flexDirection="row"
         flexWrap="nowrap"
         width="100%"
-        px="20px"
       >
         <QuestionIcon color={tc.btnColorScheme} />
         <Switch
@@ -68,6 +67,7 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
           my="4"
           bgColor={tc.btnColorScheme}
           _text={{ color: useContrastText(tc.btnColorScheme) }}
+          onPress={() => navigation.navigate('register')}
         >
           REGISTER
         </Button>
