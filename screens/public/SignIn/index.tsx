@@ -1,8 +1,29 @@
 import * as React from 'react';
-import { Box } from 'native-base';
+import { Box, Text, Heading, VStack, FormControl, Input, Link, Button, HStack } from 'native-base';
+import { ThemeContext } from '../../../providers/Theme';
+import ThemedButton from '../../../components/ThemedButton';
 
 const SignIn: React.FunctionComponent = () => {
-  return <Box>Sign in</Box>;
+  const tc = React.useContext(ThemeContext);
+
+  return (
+    <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
+      <Heading color={tc.textColorScheme}>Sign in</Heading>
+      <VStack space={2} mt={5}>
+        <FormControl>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>Email</FormControl.Label>
+          <Input w="300px" variant="filled" _focus={{ borderColor: tc.textColorScheme }} />
+        </FormControl>
+        <FormControl mb={5}>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>Password</FormControl.Label>
+          <Input w="300px" variant="filled" type="password" _focus={{ borderColor: tc.textColorScheme }} />
+        </FormControl>
+        <VStack space={2}>
+          <ThemedButton themeContext={tc}>SIGN IN</ThemedButton>
+        </VStack>
+      </VStack>
+    </Box>
+  );
 };
 
 export default SignIn;
