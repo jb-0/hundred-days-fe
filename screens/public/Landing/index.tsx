@@ -4,6 +4,7 @@ import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../../Types/Navigation';
+import ThemedButton from '../../../components/ThemedButton';
 
 type LandingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'landing'>;
 
@@ -51,26 +52,12 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
         <Heading textAlign="center" color={tc.textColorScheme} my="4">
           Welcome to one hundred days
         </Heading>
-        <Button
-          size="lg"
-          w="200px"
-          my="4"
-          bgColor={tc.btnColorScheme}
-          _text={{ color: useContrastText(tc.btnColorScheme) }}
-          onPress={() => navigation.navigate('signIn')}
-        >
+        <ThemedButton onPress={() => navigation.navigate('signIn')} themeContext={tc}>
           LOG IN
-        </Button>
-        <Button
-          size="lg"
-          w="200px"
-          my="4"
-          bgColor={tc.btnColorScheme}
-          _text={{ color: useContrastText(tc.btnColorScheme) }}
-          onPress={() => navigation.navigate('register')}
-        >
+        </ThemedButton>
+        <ThemedButton onPress={() => navigation.navigate('register')} themeContext={tc}>
           REGISTER
-        </Button>
+        </ThemedButton>
       </Box>
     </Box>
   );
