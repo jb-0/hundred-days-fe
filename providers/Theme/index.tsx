@@ -1,14 +1,8 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  NativeBaseProvider,
-  StorageManager,
-  ColorMode,
-  extendTheme,
-  useTheme,
-  useContrastText,
-} from 'native-base';
+import { NativeBaseProvider, StorageManager, ColorMode, extendTheme, useTheme, useContrastText } from 'native-base';
 import { DefaultTheme } from '../../Types/Theme';
+import { IThemeContext } from '../../Types/ThemeContext';
 
 // Define the colorModeManager,
 // here we are using react-native-async-storage (https://react-native-async-storage.github.io/async-storage/)
@@ -37,35 +31,23 @@ const customTheme = extendTheme({
 });
 
 // Create context for passing things that build on the theme, add some defaults
-interface IThemeContext {
-  bgColorScheme: any;
-  textColorScheme: any;
-  btnColorScheme: any;
-  colorScheme: ColorMode;
-  setColorScheme: React.Dispatch<React.SetStateAction<ColorMode>>;
-}
-
 export const ThemeContext = React.createContext<IThemeContext>({
   bgColorScheme: '',
   textColorScheme: '',
   btnColorScheme: '',
   colorScheme: 'dark',
-  setColorScheme: (value: unknown) => {
-    return;
-  },
+  setColorScheme: () => null,
 });
 
 const ThemeContextWrapper: React.FunctionComponent = ({ children }) => {
   const { colors }: DefaultTheme = useTheme();
   const [colorScheme, setColorScheme] = React.useState<ColorMode>('dark');
-  const bgColorScheme =
-    colorScheme === 'light' ? colors.white : colors.coolGray[800];
+
+  // Define re-usable colour schemes
+  const bgColorScheme = colorScheme === 'light' ? colors.white : colors.coolGray[800];
   const textColorScheme =
-    colorScheme === 'light'
-      ? useContrastText(colors.white)
-      : useContrastText(colors.coolGray[800]);
-  const btnColorScheme =
-    colorScheme === 'light' ? colors.coolGray[800] : colors.coolGray[200];
+    colorScheme === 'light' ? useContrastText(colors.white) : useContrastText(colors.coolGray[800]);
+  const btnColorScheme = colorScheme === 'light' ? colors.coolGray[800] : colors.coolGray[200];
 
   // Set initial context
   const context = {
@@ -79,8 +61,7 @@ const ThemeContextWrapper: React.FunctionComponent = ({ children }) => {
   // On load retrieve the saved colour mode
   React.useEffect(() => {
     (async () => {
-      const storedColorMode: ColorMode =
-        (await colorModeManager.get()) || 'dark';
+      const storedColorMode: ColorMode = (await colorModeManager.get()) || 'dark';
       setColorScheme(storedColorMode);
     })();
   }, []);
@@ -96,9 +77,7 @@ const ThemeContextWrapper: React.FunctionComponent = ({ children }) => {
     })();
   }, [colorScheme]);
 
-  return (
-    <ThemeContext.Provider value={context}>{children}</ThemeContext.Provider>
-  );
+  return <ThemeContext.Provider value={context}>{children}</ThemeContext.Provider>;
 };
 
 const ThemeProvider: React.FunctionComponent = ({ children }) => {
