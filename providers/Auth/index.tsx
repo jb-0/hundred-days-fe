@@ -1,9 +1,12 @@
 import * as React from 'react';
+import { createUser } from './utils';
 import { IAuthContext } from '../../Types/AuthContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
-const AuthContext = React.createContext<IAuthContext>({ firebaseApp: undefined });
+const AuthContext = React.createContext<IAuthContext>({
+  createUser: () => Promise.reject(false),
+});
 
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
@@ -25,7 +28,10 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-  const context: IAuthContext = { firebaseApp };
+  const context: IAuthContext = {
+    firebaseApp,
+    createUser: (email, password) => createUser(firebaseApp, email, password),
+  };
 
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
 };
