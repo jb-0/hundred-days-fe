@@ -79,14 +79,7 @@ const Register: React.FunctionComponent = () => {
     }
 
     if (emailIsValid && passwordIsValid && passwordsMatch) {
-      const result = await (async () => {
-        try {
-          const result = await createUser(email, pw);
-          return result;
-        } catch (error) {
-          return false;
-        }
-      })();
+      const result = await createUser(email, pw);
 
       if (result) {
         toast.close('error');
