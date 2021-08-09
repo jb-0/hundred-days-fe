@@ -30,7 +30,14 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const context: IAuthContext = {
     firebaseApp,
-    createUser: (email, password) => createUser(firebaseApp, email, password),
+    createUser: async (email, password) => {
+      try {
+        const result = await createUser(firebaseApp, email, password);
+        return result;
+      } catch {
+        return false;
+      }
+    },
   };
 
   return <AuthContext.Provider value={context}>{children}</AuthContext.Provider>;
