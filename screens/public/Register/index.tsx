@@ -3,26 +3,19 @@ import { Box, Heading, VStack, FormControl, Input, useToast } from 'native-base'
 import { ThemeContext } from '../../../providers/Theme';
 import ThemedButton from '../../../components/ThemedButton';
 import { useAuth } from '../../../providers';
-
-type FormItem = { value: string; errMsg?: string };
-interface FormData {
-  email: FormItem;
-  pw: FormItem;
-  confirmPw: FormItem;
-}
+import { RegisterFormData, FormItem } from '../../../Types/Forms/Register';
+import { VALID_EMAIL_RE } from '../../../utils';
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };
-
-const emailRe =
-  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const Register: React.FunctionComponent = () => {
   const tc = React.useContext(ThemeContext);
   const toast = useToast();
   const { createUser } = useAuth();
+  const [isAttemptingToRegister, setIsAttemptingToRegister] = React.useState(false);
 
   // assign form to state
-  const [formData, setFormData] = React.useState<FormData>({
+  const [formData, setFormData] = React.useState<RegisterFormData>({
     email: defaultFormItem,
     pw: defaultFormItem,
     confirmPw: { value: '' },
@@ -36,44 +29,45 @@ const Register: React.FunctionComponent = () => {
   } = formData;
 
   // set state whenever an input changes
-  const handleFormChange = (key: keyof FormData, value: string) => {
-    setFormData((prev: FormData) => {
+  const handleFormChange = (key: keyof RegisterFormData, value: string) => {
+    setFormData((prev: RegisterFormData) => {
       return { ...prev, [key]: { value, errMsg: prev[key].errMsg } };
     });
   };
 
   // valid the submission displaying errors as required, if valid submit to cognito
   const handleSubmit = async () => {
-    const emailIsValid = emailRe.test(String(email).toLowerCase());
+    setIsAttemptingToRegister(true);
+    const emailIsValid = VALID_EMAIL_RE.test(String(email).toLowerCase());
     const passwordsMatch = pw === confirmPw;
     const passwordIsValid = pw.length > 7;
 
     if (!emailIsValid) {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, email: { value: prev.email.value, errMsg: 'Email format invalid' } };
       });
     } else {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, email: { value: prev.email.value } };
       });
     }
 
     if (!passwordsMatch) {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, pw: { value: prev.pw.value, errMsg: 'Passwords do not match' } };
       });
     } else {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, pw: { value: prev.pw.value } };
       });
     }
 
     if (!passwordIsValid) {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, pw: { value: prev.pw.value, errMsg: 'Passwords must be at least 8 characters' } };
       });
     } else if (passwordsMatch) {
-      setFormData((prev: FormData) => {
+      setFormData((prev: RegisterFormData) => {
         return { ...prev, pw: { value: prev.pw.value } };
       });
     }
@@ -102,6 +96,7 @@ const Register: React.FunctionComponent = () => {
         }
       }
     }
+    setIsAttemptingToRegister(false);
   };
 
   return (
@@ -143,7 +138,7 @@ const Register: React.FunctionComponent = () => {
           />
         </FormControl>
         <VStack space={2} justifyContent="center" alignItems="center">
-          <ThemedButton themeContext={tc} onPress={handleSubmit}>
+          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingToRegister}>
             REGISTER
           </ThemedButton>
         </VStack>
