@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { createUser } from './utils';
+import { createUser, signIn } from './utils';
 import { IAuthContext } from '../../Types/AuthContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
+  signIn: () => Promise.reject(false),
 });
 
 export const useAuth = () => {
@@ -33,6 +34,14 @@ const AuthProvider: React.FC = ({ children }) => {
     createUser: async (email, password) => {
       try {
         const result = await createUser(firebaseApp, email, password);
+        return result;
+      } catch {
+        return false;
+      }
+    },
+    signIn: async (email, password) => {
+      try {
+        const result = await signIn(firebaseApp, email, password);
         return result;
       } catch {
         return false;
