@@ -12,7 +12,7 @@ const SignIn: React.FunctionComponent = () => {
   const tc = React.useContext(ThemeContext);
   const toast = useToast();
   const { signIn } = useAuth();
-  const [isAttemptingToRegister, setIsAttemptingToRegister] = React.useState(false);
+  const [isAttemptingSignIn, setIsAttemptingSignIn] = React.useState(false);
 
   // assign form to state
   const [formData, setFormData] = React.useState<SignInFormData>({ email: defaultFormItem, pw: defaultFormItem });
@@ -32,7 +32,7 @@ const SignIn: React.FunctionComponent = () => {
 
   // valid the submission displaying errors as required, if valid submit to cognito
   const handleSubmit = async () => {
-    setIsAttemptingToRegister(true);
+    setIsAttemptingSignIn(true);
     const emailIsValid = VALID_EMAIL_RE.test(String(email).toLowerCase());
 
     if (!emailIsValid) {
@@ -69,7 +69,7 @@ const SignIn: React.FunctionComponent = () => {
         }
       }
     }
-    setIsAttemptingToRegister(false);
+    setIsAttemptingSignIn(false);
   };
 
   return (
@@ -99,7 +99,7 @@ const SignIn: React.FunctionComponent = () => {
           />
         </FormControl>
         <VStack space={2} justifyContent="center" alignItems="center">
-          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingToRegister}>
+          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingSignIn}>
             SIGN IN
           </ThemedButton>
         </VStack>

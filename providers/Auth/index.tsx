@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createUser, signIn } from './utils';
+import { createUser, signIn, getAsyncStoreUserCredential, setAsyncStoreUserCredential, firebaseConfig } from './utils';
 import { IAuthContext } from '../../Types/AuthContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -7,30 +7,36 @@ import 'firebase/auth';
 const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
   signIn: () => Promise.reject(false),
+  userCredential: undefined,
 });
 
 export const useAuth = () => {
   const context = React.useContext(AuthContext);
-
   return context;
 };
 
 const AuthProvider: React.FC = ({ children }) => {
-  // Initialize Firebase
-  const firebaseConfig = {
-    apiKey: 'AIzaSyCZ6Bfrh2qw5IzxuCeoVfw64eACkfF1uoc',
-    authDomain: 'hundred-days-2ebe2.firebaseapp.com',
-    projectId: 'hundred-days-2ebe2',
-    storageBucket: 'hundred-days-2ebe2.appspot.com',
-    messagingSenderId: '245846571840',
-    appId: '1:245846571840:web:15ba8fcae7f6572f2c98a5',
-    measurementId: 'G-Q695WEH53F',
-  };
+  const firebaseApp = (() => {
+    if (!firebase.apps.length) {
+      return firebase.initializeApp(firebaseConfig);
+    } else {
+      return firebase.app();
+    }
+  })();
 
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
+  const [userCredential, setUserCredential] = React.useState<undefined | firebase.auth.UserCredential>();
+
+  // On initial load, try to get get existing user from async store
+  React.useEffect(() => {
+    (async () => {
+      const storedUserCredential = await getAsyncStoreUserCredential();
+      storedUserCredential && setUserCredential(storedUserCredential);
+    })();
+  }, []);
 
   const context: IAuthContext = {
     firebaseApp,
+    userCredential,
     createUser: async (email, password) => {
       try {
         const result = await createUser(firebaseApp, email, password);
@@ -42,6 +48,10 @@ const AuthProvider: React.FC = ({ children }) => {
     signIn: async (email, password) => {
       try {
         const result = await signIn(firebaseApp, email, password);
+        if (result) {
+          await setAsyncStoreUserCredential(result);
+          setUserCredential(result);
+        }
         return result;
       } catch {
         return false;
