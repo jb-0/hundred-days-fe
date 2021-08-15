@@ -5,4 +5,6 @@ export interface IAuthContext {
   createUser: (email: string, password: string) => Promise<boolean>;
   signIn: (email: string, password: string) => Promise<firebase.auth.UserCredential | false>;
   userCredential: undefined | firebase.auth.UserCredential;
+  isVerified: boolean;
+  isAuthenticated: boolean;
 }

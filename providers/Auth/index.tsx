@@ -1,5 +1,12 @@
 import * as React from 'react';
-import { createUser, signIn, getAsyncStoreUserCredential, setAsyncStoreUserCredential, firebaseConfig } from './utils';
+import {
+  createUser,
+  signInWithEmail,
+  signInWithCredential,
+  getAsyncStoreUserCredential,
+  setAsyncStoreUserCredential,
+  firebaseConfig,
+} from './utils';
 import { IAuthContext } from '../../Types/AuthContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
@@ -8,6 +15,8 @@ const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
   signIn: () => Promise.reject(false),
   userCredential: undefined,
+  isAuthenticated: false,
+  isVerified: false,
 });
 
 export const useAuth = () => {
@@ -30,13 +39,19 @@ const AuthProvider: React.FC = ({ children }) => {
   React.useEffect(() => {
     (async () => {
       const storedUserCredential = await getAsyncStoreUserCredential();
-      storedUserCredential && setUserCredential(storedUserCredential);
+
+      if (storedUserCredential) {
+        const refreshedCredential = await signInWithCredential(firebaseApp, storedUserCredential);
+        refreshedCredential && setUserCredential(storedUserCredential);
+      }
     })();
   }, []);
 
   const context: IAuthContext = {
     firebaseApp,
     userCredential,
+    isAuthenticated: userCredential ? true : false,
+    isVerified: userCredential?.user?.emailVerified === true ? true : false,
     createUser: async (email, password) => {
       try {
         const result = await createUser(firebaseApp, email, password);
@@ -47,7 +62,7 @@ const AuthProvider: React.FC = ({ children }) => {
     },
     signIn: async (email, password) => {
       try {
-        const result = await signIn(firebaseApp, email, password);
+        const result = await signInWithEmail(firebaseApp, email, password);
         if (result) {
           await setAsyncStoreUserCredential(result);
           setUserCredential(result);

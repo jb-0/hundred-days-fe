@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 
-export const signIn = (
+export const signInWithEmail = (
   firebase: firebase.app.App,
   email: string,
   password: string,
@@ -15,5 +15,24 @@ export const signIn = (
       .catch((error) => {
         reject(false);
       });
+  });
+};
+
+export const signInWithCredential = (
+  firebase: firebase.app.App,
+  { credential }: firebase.auth.UserCredential,
+): Promise<firebase.auth.UserCredential | false> => {
+  return new Promise((resolve, reject) => {
+    if (credential) {
+      firebase
+        .auth()
+        .signInWithCredential(credential)
+        .then((userCredential) => {
+          resolve(userCredential);
+        })
+        .catch((error) => {
+          reject(false);
+        });
+    }
   });
 };
