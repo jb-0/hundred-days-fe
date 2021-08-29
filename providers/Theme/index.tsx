@@ -1,8 +1,8 @@
 import * as React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NativeBaseProvider, StorageManager, ColorMode, extendTheme, useTheme, useContrastText } from 'native-base';
-import { DefaultTheme } from '../../Types/Theme';
-import { IThemeContext } from '../../Types/ThemeContext';
+import { DefaultTheme } from '../../types/Theme';
+import { IThemeContext } from '../../types/ThemeContext';
 
 // Define the colorModeManager,
 // here we are using react-native-async-storage (https://react-native-async-storage.github.io/async-storage/)

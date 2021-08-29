@@ -3,7 +3,7 @@ import { Box, Heading, Button, Switch, useContrastText } from 'native-base';
 import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../Types/Navigation';
+import { RootStackParamList } from '../../../types/Navigation';
 import ThemedButton from '../../../components/ThemedButton';
 
 type LandingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'landing'>;
