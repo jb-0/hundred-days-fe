@@ -3,7 +3,7 @@ import { Box, Heading, VStack, FormControl, Input, useToast } from 'native-base'
 import { ThemeContext } from '../../../providers/Theme';
 import ThemedButton from '../../../components/ThemedButton';
 import { useAuth } from '../../../providers';
-import { SignInFormData, FormItem } from '../../../Types/Forms/SignIn';
+import { SignInFormData, FormItem } from '../../../types/Forms/SignIn';
 import { VALID_EMAIL_RE } from '../../../utils';
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };

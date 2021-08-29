@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, useContrastText } from 'native-base';
 import { ResponsiveValue } from 'native-base/lib/typescript/components/types';
-import { IThemeContext } from '../../Types/ThemeContext';
+import { IThemeContext } from '../../types/ThemeContext';
 import { IButtonProps } from 'native-base/lib/typescript/components/primitives/Button/types';
 
 interface IThemedButtonProps extends IButtonProps {
