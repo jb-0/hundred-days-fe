@@ -8,6 +8,12 @@
     "eject": "expo eject",
     "test": "jest --watchAll"
   },
+  "release": {
+    "branches": [
+      "main",
+      "dev"
+    ]
+  },
   "jest": {
     "preset": "jest-expo"
   },
