@@ -1,22 +1,16 @@
-import * as React from 'react';
-import {
-  createUser,
-  signInWithEmail,
-  signInWithCredential,
-  getAsyncStoreUserCredential,
-  setAsyncStoreUserCredential,
-  firebaseConfig,
-} from './utils';
-import { IAuthContext } from '../../Types/AuthContext';
+import React, { useState } from 'react';
+import { createUser, signInWithEmail, firebaseConfig } from './utils';
+import { IAuthContext } from '../../types/AuthContext';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
 const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
   signIn: () => Promise.reject(false),
-  userCredential: undefined,
+  currentUser: undefined,
   isAuthenticated: false,
   isVerified: false,
+  isPendingRefresh: false,
 });
 
 export const useAuth = () => {
@@ -33,25 +27,25 @@ const AuthProvider: React.FC = ({ children }) => {
     }
   })();
 
-  const [userCredential, setUserCredential] = React.useState<undefined | firebase.auth.UserCredential>();
+  const [currentUser, setCurrentUser] = useState<null | firebase.User>(null);
+  const [pending, setPending] = useState(true);
 
-  // On initial load, try to get get existing user from async store
+  // On initial load, try to get existing user
   React.useEffect(() => {
     (async () => {
-      const storedUserCredential = await getAsyncStoreUserCredential();
-
-      if (storedUserCredential) {
-        const refreshedCredential = await signInWithCredential(firebaseApp, storedUserCredential);
-        refreshedCredential && setUserCredential(storedUserCredential);
-      }
+      firebaseApp.auth().onAuthStateChanged((user) => {
+        setCurrentUser(user);
+        setPending(false);
+      });
     })();
   }, []);
 
   const context: IAuthContext = {
     firebaseApp,
-    userCredential,
-    isAuthenticated: userCredential ? true : false,
-    isVerified: userCredential?.user?.emailVerified === true ? true : false,
+    currentUser: firebaseApp?.auth()?.currentUser || undefined,
+    isAuthenticated: firebaseApp?.auth()?.currentUser ? true : false,
+    isVerified: firebaseApp?.auth()?.currentUser?.emailVerified === true ? true : false,
+    isPendingRefresh: pending,
     createUser: async (email, password) => {
       try {
         const result = await createUser(firebaseApp, email, password);
@@ -63,10 +57,6 @@ const AuthProvider: React.FC = ({ children }) => {
     signIn: async (email, password) => {
       try {
         const result = await signInWithEmail(firebaseApp, email, password);
-        if (result) {
-          await setAsyncStoreUserCredential(result);
-          setUserCredential(result);
-        }
         return result;
       } catch {
         return false;
