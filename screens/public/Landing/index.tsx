@@ -1,15 +1,12 @@
 import * as React from 'react';
-import { Box, Heading, Button, Switch, useContrastText } from 'native-base';
+import { Box, Heading, Switch } from 'native-base';
 import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { RootStackParamList } from '../../../types/Navigation';
+import { AppNavigationProps } from '../../../types/Navigation';
 import ThemedButton from '../../../components/ThemedButton';
 
-type LandingScreenNavigationProp = StackNavigationProp<RootStackParamList, 'landing'>;
-
 type Props = {
-  navigation: LandingScreenNavigationProp;
+  navigation: AppNavigationProps['landing'];
 };
 
 const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {

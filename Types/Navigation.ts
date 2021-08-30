@@ -1,3 +1,5 @@
+import { StackNavigationProp } from '@react-navigation/stack';
+
 export type RootStackParamList = {
   landing: undefined;
   signIn: undefined;
@@ -6,3 +8,7 @@ export type RootStackParamList = {
   Profile: { userId: string };
   Feed: { sort: 'latest' | 'top' } | undefined;
 };
+
+export interface AppNavigationProps {
+  landing: StackNavigationProp<RootStackParamList, 'landing'>;
+}
