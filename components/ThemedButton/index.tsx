@@ -8,16 +8,19 @@ interface IThemedButtonProps extends IButtonProps {
   size?: ResponsiveValue<'xs' | 'sm' | 'md' | 'lg'>;
   themeContext: IThemeContext;
   children: string;
+  testID?: string;
 }
 
 const ThemedButton: React.FunctionComponent<IThemedButtonProps> = ({
   size = 'lg',
   themeContext,
   children,
+  testID = 'themed-button',
   ...other
 }: IThemedButtonProps) => {
   return (
     <Button
+      testID={testID}
       size={size}
       minW="150px"
       maxW="200px"

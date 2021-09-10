@@ -1,12 +1,8 @@
 import React from 'react';
-import { render, fireEvent, waitFor, act, cleanup } from '@testing-library/react-native';
+import { render, fireEvent, cleanup } from '@testing-library/react-native';
 import { AppNavigationProps } from '../../../types/Navigation';
+import { NativeBaseWrapper, mockNavigation } from '../../../utils/testHelpers';
 import Landing from './';
-import { NativeBaseWrapper } from '../../../utils/testHelpers';
-
-const mockNavigation = {
-  navigate: jest.fn(),
-};
 
 describe('Screen - Landing', () => {
   afterEach(cleanup);
