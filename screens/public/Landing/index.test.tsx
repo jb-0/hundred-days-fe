@@ -1,8 +1,12 @@
 import React from 'react';
 import { render, fireEvent, cleanup } from '@testing-library/react-native';
 import { AppNavigationProps } from '../../../types/Navigation';
-import { NativeBaseWrapper, mockNavigation } from '../../../utils/testHelpers';
+import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import Landing from './';
+
+const navigation = {
+  navigate: jest.fn(),
+} as unknown as AppNavigationProps['landing'];
 
 describe('Screen - Landing', () => {
   afterEach(cleanup);
@@ -10,7 +14,7 @@ describe('Screen - Landing', () => {
   it('renders landing screen with log in and register buttons', () => {
     const { getAllByA11yRole, getByText } = render(
       <NativeBaseWrapper>
-        <Landing navigation={{} as AppNavigationProps['landing']} />
+        <Landing navigation={navigation} />
       </NativeBaseWrapper>,
     );
 
@@ -24,26 +28,26 @@ describe('Screen - Landing', () => {
   it('clicking the log in button fires the correct navigation event', () => {
     const { getByText } = render(
       <NativeBaseWrapper>
-        <Landing navigation={{ ...mockNavigation } as any} />
+        <Landing navigation={navigation} />
       </NativeBaseWrapper>,
     );
 
     const logInButton = getByText('LOG IN');
     fireEvent.press(logInButton);
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('signIn');
+    expect(navigation.navigate).toHaveBeenCalledWith('signIn');
   });
 
   it('clicking the register button fires the correct navigation event', () => {
     const { getByText } = render(
       <NativeBaseWrapper>
-        <Landing navigation={{ ...mockNavigation } as any} />
+        <Landing navigation={navigation} />
       </NativeBaseWrapper>,
     );
 
     const registerButton = getByText('REGISTER');
     fireEvent.press(registerButton);
 
-    expect(mockNavigation.navigate).toHaveBeenCalledWith('register');
+    expect(navigation.navigate).toHaveBeenCalledWith('register');
   });
 });

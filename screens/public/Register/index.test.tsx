@@ -1,12 +1,12 @@
 import React from 'react';
-import { render, fireEvent, cleanup, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native';
+import { render, fireEvent, cleanup, waitFor } from '@testing-library/react-native';
 import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import Register from './';
 import { AuthProvider } from '../../../providers';
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 
-describe('Screen - Landing', () => {
+describe('Screen - Register', () => {
   afterEach(cleanup);
 
   it('allows user to submit form when valid inputs are provided', async () => {

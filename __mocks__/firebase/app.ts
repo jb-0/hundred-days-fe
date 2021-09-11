@@ -6,7 +6,8 @@ const app = {
         return {
           signInWithEmailAndPassword: (email: string, password: string) => {
             return new Promise((resolve, reject) => {
-              resolve({ email, password });
+              if (email === 'baduser@email.com') reject(false);
+              else resolve(true);
             });
           },
           createUserWithEmailAndPassword: (email: string, password: string) => {
