@@ -56,6 +56,7 @@ const SignIn: React.FunctionComponent = () => {
             title: 'Signed In',
             status: 'success',
             description: 'You are now signed in to the app',
+            testID: 'success-toast',
           });
         }
       } else {
@@ -65,6 +66,7 @@ const SignIn: React.FunctionComponent = () => {
             title: 'An error occurred',
             status: 'error',
             description: 'The credentials you have provided are incorrect, please try again',
+            testID: 'error-toast',
           });
         }
       }
@@ -79,6 +81,7 @@ const SignIn: React.FunctionComponent = () => {
         <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
           <FormControl.Label _text={{ color: tc.textColorScheme }}>Email</FormControl.Label>
           <Input
+            accessibilityLabel="Email"
             value={email}
             onChangeText={(value) => handleFormChange('email', value)}
             w="300px"
@@ -91,6 +94,7 @@ const SignIn: React.FunctionComponent = () => {
           <FormControl.Label _text={{ color: tc.textColorScheme }}>Password</FormControl.Label>
           <Input
             value={pw}
+            accessibilityLabel="Password"
             onChangeText={(value) => handleFormChange('pw', value)}
             w="300px"
             type="password"
@@ -99,7 +103,7 @@ const SignIn: React.FunctionComponent = () => {
           />
         </FormControl>
         <VStack space={2} justifyContent="center" alignItems="center">
-          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingSignIn}>
+          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingSignIn} testID="sign-in-button">
             SIGN IN
           </ThemedButton>
         </VStack>

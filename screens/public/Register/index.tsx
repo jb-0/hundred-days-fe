@@ -79,6 +79,7 @@ const Register: React.FunctionComponent = () => {
         toast.close('error');
         if (!toast.isActive('success')) {
           toast.show({
+            testID: 'success-toast',
             id: 'success',
             title: 'Verification email sent',
             status: 'success',
@@ -88,6 +89,7 @@ const Register: React.FunctionComponent = () => {
       } else {
         if (!toast.isActive('error')) {
           toast.show({
+            testID: 'error-toast',
             id: 'error',
             title: 'An error occurred',
             status: 'error',
@@ -106,6 +108,7 @@ const Register: React.FunctionComponent = () => {
         <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
           <FormControl.Label _text={{ color: tc.textColorScheme }}>Email</FormControl.Label>
           <Input
+            accessibilityLabel="Email"
             value={email}
             onChangeText={(value) => handleFormChange('email', value)}
             w="300px"
@@ -117,6 +120,7 @@ const Register: React.FunctionComponent = () => {
         <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
           <FormControl.Label _text={{ color: tc.textColorScheme }}>Password</FormControl.Label>
           <Input
+            accessibilityLabel="Password"
             value={pw}
             onChangeText={(value) => handleFormChange('pw', value)}
             w="300px"
@@ -129,6 +133,7 @@ const Register: React.FunctionComponent = () => {
         <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
           <FormControl.Label _text={{ color: tc.textColorScheme }}>Confirm Password</FormControl.Label>
           <Input
+            accessibilityLabel="Confirm Password"
             value={confirmPw}
             onChangeText={(value) => handleFormChange('confirmPw', value)}
             w="300px"
@@ -138,7 +143,12 @@ const Register: React.FunctionComponent = () => {
           />
         </FormControl>
         <VStack space={2} justifyContent="center" alignItems="center">
-          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingToRegister}>
+          <ThemedButton
+            themeContext={tc}
+            onPress={handleSubmit}
+            isLoading={isAttemptingToRegister}
+            testID="register-button"
+          >
             REGISTER
           </ThemedButton>
         </VStack>
