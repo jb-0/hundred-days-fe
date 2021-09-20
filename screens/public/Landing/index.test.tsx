@@ -3,10 +3,13 @@ import { render, fireEvent, cleanup } from '@testing-library/react-native';
 import { AppNavigationProps } from '../../../types/Navigation';
 import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import Landing from './';
+import { initiateTranslations } from '../../../providers';
 
 const navigation = {
   navigate: jest.fn(),
 } as unknown as AppNavigationProps['landing'];
+
+initiateTranslations();
 
 describe('Screen - Landing', () => {
   afterEach(cleanup);

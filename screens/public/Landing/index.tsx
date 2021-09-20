@@ -4,12 +4,14 @@ import { QuestionIcon } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 import { AppNavigationProps } from '../../../types/Navigation';
 import ThemedButton from '../../../components/ThemedButton';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   navigation: AppNavigationProps['landing'];
 };
 
 const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
+  const { t } = useTranslation();
   const switchMapping = { light: true, dark: false };
   const tc = React.useContext(ThemeContext);
   const [isChecked, setIsChecked] = React.useState<boolean>(switchMapping[tc.colorScheme]);
@@ -47,13 +49,13 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
       </Box>
       <Box flex={0.8} alignSelf="flex-start" justifyContent="center" alignItems="center" bgColor="transparent">
         <Heading textAlign="center" color={tc.textColorScheme} my="4">
-          Welcome to one hundred days
+          {t('translation:screens.public.landing.welcome_message')}
         </Heading>
         <ThemedButton onPress={() => navigation.navigate('signIn')} themeContext={tc}>
-          LOG IN
+          {t('translation:screens.public.landing.buttons.sign_in')}
         </ThemedButton>
         <ThemedButton onPress={() => navigation.navigate('register')} themeContext={tc}>
-          REGISTER
+          {t('translation:screens.public.landing.buttons.register')}
         </ThemedButton>
       </Box>
     </Box>

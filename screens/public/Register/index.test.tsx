@@ -3,8 +3,11 @@ import { render, fireEvent, cleanup, waitFor } from '@testing-library/react-nati
 import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import Register from './';
 import { AuthProvider } from '../../../providers';
+import { initiateTranslations } from '../../../providers';
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+
+initiateTranslations();
 
 describe('Screen - Register', () => {
   afterEach(cleanup);

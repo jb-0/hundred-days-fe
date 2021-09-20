@@ -5,10 +5,12 @@ import ThemedButton from '../../../components/ThemedButton';
 import { useAuth } from '../../../providers';
 import { RegisterFormData, FormItem } from '../../../types/Forms/Register';
 import { VALID_EMAIL_RE } from '../../../utils';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };
 
 const Register: React.FunctionComponent = () => {
+  const { t } = useTranslation();
   const tc = React.useContext(ThemeContext);
   const toast = useToast();
   const { createUser } = useAuth();
@@ -44,7 +46,10 @@ const Register: React.FunctionComponent = () => {
 
     if (!emailIsValid) {
       setFormData((prev: RegisterFormData) => {
-        return { ...prev, email: { value: prev.email.value, errMsg: 'Email format invalid' } };
+        return {
+          ...prev,
+          email: { value: prev.email.value, errMsg: t('translation:common.errors.email_format') },
+        };
       });
     } else {
       setFormData((prev: RegisterFormData) => {
@@ -54,7 +59,10 @@ const Register: React.FunctionComponent = () => {
 
     if (!passwordsMatch) {
       setFormData((prev: RegisterFormData) => {
-        return { ...prev, pw: { value: prev.pw.value, errMsg: 'Passwords do not match' } };
+        return {
+          ...prev,
+          pw: { value: prev.pw.value, errMsg: t('translation:screens.public.register.errors.password_mismatch') },
+        };
       });
     } else {
       setFormData((prev: RegisterFormData) => {
@@ -64,7 +72,10 @@ const Register: React.FunctionComponent = () => {
 
     if (!passwordIsValid) {
       setFormData((prev: RegisterFormData) => {
-        return { ...prev, pw: { value: prev.pw.value, errMsg: 'Passwords must be at least 8 characters' } };
+        return {
+          ...prev,
+          pw: { value: prev.pw.value, errMsg: t('translation:screens.public.register.errors.password_composition') },
+        };
       });
     } else if (passwordsMatch) {
       setFormData((prev: RegisterFormData) => {
@@ -81,9 +92,9 @@ const Register: React.FunctionComponent = () => {
           toast.show({
             testID: 'success-toast',
             id: 'success',
-            title: 'Verification email sent',
+            title: t('translation:screens.public.register.toasts.success_title'),
             status: 'success',
-            description: 'Thanks for signing up, check your inbox for verification steps',
+            description: t('translation:screens.public.register.toasts.success_description'),
           });
         }
       } else {
@@ -91,9 +102,9 @@ const Register: React.FunctionComponent = () => {
           toast.show({
             testID: 'error-toast',
             id: 'error',
-            title: 'An error occurred',
+            title: t('translation:screens.public.register.toasts.error_title'),
             status: 'error',
-            description: 'We were unable to create your account, please try again later.',
+            description: t('translation:screens.public.register.toasts.error_description'),
           });
         }
       }
@@ -103,12 +114,14 @@ const Register: React.FunctionComponent = () => {
 
   return (
     <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
-      <Heading color={tc.textColorScheme}>Register</Heading>
+      <Heading color={tc.textColorScheme}>{t('translation:screens.public.register.page_heading')}</Heading>
       <VStack space={2} mt={5}>
         <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>Email</FormControl.Label>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>
+            {t('translation:screens.public.register.fields.email.text')}
+          </FormControl.Label>
           <Input
-            accessibilityLabel="Email"
+            accessibilityLabel={t('translation:screens.public.register.fields.email.text')}
             value={email}
             onChangeText={(value) => handleFormChange('email', value)}
             w="300px"
@@ -118,9 +131,11 @@ const Register: React.FunctionComponent = () => {
           <FormControl.ErrorMessage>{emailErr}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>Password</FormControl.Label>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>
+            {t('translation:screens.public.register.fields.pw.text')}
+          </FormControl.Label>
           <Input
-            accessibilityLabel="Password"
+            accessibilityLabel={t('translation:screens.public.register.fields.pw.text')}
             value={pw}
             onChangeText={(value) => handleFormChange('pw', value)}
             w="300px"
@@ -131,9 +146,11 @@ const Register: React.FunctionComponent = () => {
           <FormControl.ErrorMessage>{pwErr}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>Confirm Password</FormControl.Label>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>
+            {t('translation:screens.public.register.fields.conf_pw.text')}
+          </FormControl.Label>
           <Input
-            accessibilityLabel="Confirm Password"
+            accessibilityLabel={t('translation:screens.public.register.fields.conf_pw.text')}
             value={confirmPw}
             onChangeText={(value) => handleFormChange('confirmPw', value)}
             w="300px"
@@ -149,7 +166,7 @@ const Register: React.FunctionComponent = () => {
             isLoading={isAttemptingToRegister}
             testID="register-button"
           >
-            REGISTER
+            {t('translation:screens.public.register.buttons.register')}
           </ThemedButton>
         </VStack>
       </VStack>

@@ -3,12 +3,15 @@ import { render, fireEvent, cleanup, waitFor, waitForElementToBeRemoved } from '
 import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import SignIn from './';
 import { AuthProvider } from '../../../providers';
+import { initiateTranslations } from '../../../providers';
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'android',
   select: () => null,
 }));
+
+initiateTranslations();
 
 describe('Screen - Sign In', () => {
   afterEach(cleanup);
