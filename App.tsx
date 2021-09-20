@@ -1,6 +1,8 @@
 import React from 'react';
-import { ThemeProvider, AuthProvider } from './providers';
 import Router from './router';
+import { ThemeProvider, AuthProvider, initiateTranslations } from './providers';
+
+initiateTranslations();
 
 export default function App() {
   return (

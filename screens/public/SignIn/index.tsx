@@ -5,10 +5,12 @@ import ThemedButton from '../../../components/ThemedButton';
 import { useAuth } from '../../../providers';
 import { SignInFormData, FormItem } from '../../../types/Forms/SignIn';
 import { VALID_EMAIL_RE } from '../../../utils';
+import { useTranslation } from 'react-i18next';
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };
 
 const SignIn: React.FunctionComponent = () => {
+  const { t } = useTranslation();
   const tc = React.useContext(ThemeContext);
   const toast = useToast();
   const { signIn } = useAuth();
@@ -37,7 +39,7 @@ const SignIn: React.FunctionComponent = () => {
 
     if (!emailIsValid) {
       setFormData((prev: SignInFormData) => {
-        return { ...prev, email: { value: prev.email.value, errMsg: 'Email format invalid' } };
+        return { ...prev, email: { value: prev.email.value, errMsg: t('translation:common.errors.email_format') } };
       });
     } else {
       setFormData((prev: SignInFormData) => {
@@ -53,9 +55,9 @@ const SignIn: React.FunctionComponent = () => {
         if (!toast.isActive('success')) {
           toast.show({
             id: 'success',
-            title: 'Signed In',
+            title: t('translation:screens.public.sign_in.toasts.success_title'),
             status: 'success',
-            description: 'You are now signed in to the app',
+            description: t('translation:screens.public.sign_in.toasts.success_description'),
             testID: 'success-toast',
           });
         }
@@ -63,9 +65,9 @@ const SignIn: React.FunctionComponent = () => {
         if (!toast.isActive('error')) {
           toast.show({
             id: 'error',
-            title: 'An error occurred',
+            title: t('translation:screens.public.sign_in.toasts.error_title'),
             status: 'error',
-            description: 'The credentials you have provided are incorrect, please try again',
+            description: t('translation:screens.public.sign_in.toasts.error_description'),
             testID: 'error-toast',
           });
         }
@@ -76,12 +78,14 @@ const SignIn: React.FunctionComponent = () => {
 
   return (
     <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
-      <Heading color={tc.textColorScheme}>Sign in</Heading>
+      <Heading color={tc.textColorScheme}>{t('translation:screens.public.sign_in.page_heading')}</Heading>
       <VStack space={2} mt={5}>
         <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>Email</FormControl.Label>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>
+            {t('translation:screens.public.sign_in.fields.email.text')}
+          </FormControl.Label>
           <Input
-            accessibilityLabel="Email"
+            accessibilityLabel={t('translation:screens.public.sign_in.fields.email.text')}
             value={email}
             onChangeText={(value) => handleFormChange('email', value)}
             w="300px"
@@ -91,10 +95,12 @@ const SignIn: React.FunctionComponent = () => {
           <FormControl.ErrorMessage>{emailErr}</FormControl.ErrorMessage>
         </FormControl>
         <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>Password</FormControl.Label>
+          <FormControl.Label _text={{ color: tc.textColorScheme }}>
+            {t('translation:screens.public.sign_in.fields.pw.text')}
+          </FormControl.Label>
           <Input
             value={pw}
-            accessibilityLabel="Password"
+            accessibilityLabel={t('translation:screens.public.sign_in.fields.pw.text')}
             onChangeText={(value) => handleFormChange('pw', value)}
             w="300px"
             type="password"
@@ -104,7 +110,7 @@ const SignIn: React.FunctionComponent = () => {
         </FormControl>
         <VStack space={2} justifyContent="center" alignItems="center">
           <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingSignIn} testID="sign-in-button">
-            SIGN IN
+            {t('translation:screens.public.sign_in.buttons.sign_in')}
           </ThemedButton>
         </VStack>
       </VStack>
