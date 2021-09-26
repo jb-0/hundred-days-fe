@@ -4,8 +4,13 @@ on:
     branches: [main]
   pull_request:
     branches: [main, dev]
+    paths:
+      - 'src/**'
 jobs:
   release:
+    defaults:
+      run:
+        working-directory: ./src
     name: Test and Semantic Release
     runs-on: ubuntu-latest
     steps:
