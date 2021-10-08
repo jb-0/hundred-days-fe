@@ -23,7 +23,7 @@ jobs:
       - name: Sleep for 300 seconds
         uses: jakejarvis/wait-action@master
         with:
-          time: '300s'
+          time: '400s'
 
       - name: Checkout
         uses: actions/checkout@v2
