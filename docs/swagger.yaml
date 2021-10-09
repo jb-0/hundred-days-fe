@@ -17,12 +17,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-            application/xml:
+  /user/new:
+    post:
+      summary: "Should be called once on successfull registration, bootstraps the\
+        \ user record"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+        required: true
+      responses:
+        "200":
+          description: Returns a user object
+          content:
+            application/json:
               schema:
-                $ref: '#/components/schemas/User'
-            text/plain:
-              schema:
-                type: string
+                $ref: '#/components/schemas/inline_response_200'
   /diary:
     get:
       summary: Currently authenticated user's diary
@@ -33,27 +44,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Diary'
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Diary'
-            text/plain:
-              schema:
-                type: string
 components:
   schemas:
-    User:
+    NewUser:
       required:
       - email
-      - id
-      type: object
       properties:
-        id:
-          type: integer
-          format: int64
         email:
           type: string
         username:
           type: string
+        diary:
+          $ref: '#/components/schemas/Diary'
+      xml:
+        name: NewUser
+    User:
+      type: object
+      properties:
         profilePhotoUrl:
           type: string
         preferredLanguage:
@@ -61,11 +68,11 @@ components:
           enum:
           - en-GB
           - en-US
-        diary:
-          $ref: '#/components/schemas/Diary'
       description: Represents an application user
       xml:
         name: User
+      allOf:
+      - $ref: '#/components/schemas/NewUser'
     Diary:
       required:
       - dateFormat
@@ -111,3 +118,8 @@ components:
         data
       xml:
         name: DiaryEntry
+    inline_response_200:
+      type: object
+      properties:
+        message:
+          type: string
