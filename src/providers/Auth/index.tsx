@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { createUser, signInWithEmail, firebaseConfig } from './utils';
+import { createUser, signInWithEmail } from './utils';
 import { IAuthContext } from '../../types/AuthContext';
 import firebase from 'firebase/app';
-import 'firebase/auth';
+import { useFirebase } from '../Firebase';
 
 const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
@@ -19,14 +19,7 @@ export const useAuth = () => {
 };
 
 const AuthProvider: React.FC = ({ children }) => {
-  const firebaseApp = (() => {
-    if (!firebase.apps.length) {
-      return firebase.initializeApp(firebaseConfig);
-    } else {
-      return firebase.app();
-    }
-  })();
-
+  const { firebaseApp } = useFirebase();
   const [currentUser, setCurrentUser] = useState<null | firebase.User>(null);
   const [pending, setPending] = useState(true);
 
@@ -41,7 +34,6 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const context: IAuthContext = {
-    firebaseApp,
     currentUser: firebaseApp?.auth()?.currentUser || undefined,
     isAuthenticated: firebaseApp?.auth()?.currentUser ? true : false,
     isVerified: firebaseApp?.auth()?.currentUser?.emailVerified === true ? true : false,
