@@ -47,7 +47,14 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
           onThumbColor="warmGray.600"
         />
       </Box>
-      <Box flex={0.8} alignSelf="flex-start" justifyContent="center" alignItems="center" bgColor="transparent">
+      <Box
+        flex={0.8}
+        alignSelf="flex-start"
+        justifyContent="center"
+        alignItems="center"
+        bgColor="transparent"
+        width="100%"
+      >
         <Heading textAlign="center" color={tc.textColorScheme} my="4">
           {t('translation:screens.public.landing.welcome_message')}
         </Heading>

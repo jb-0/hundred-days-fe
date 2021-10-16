@@ -2,18 +2,25 @@ import * as React from 'react';
 import { Box, Heading, VStack, FormControl, Input, useToast } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 import ThemedButton from '../../../components/ThemedButton';
-import { useAuth } from '../../../providers';
+import { useAuth, useFirebase } from '../../../providers';
 import { RegisterFormData, FormItem } from '../../../types/Forms/Register';
-import { VALID_EMAIL_RE } from '../../../utils';
 import { useTranslation } from 'react-i18next';
+import { bootstrapUser } from '../../../services/data';
+import { formValidation } from './utils';
+import { AppNavigationProps } from '../../../types/Navigation';
+
+type Props = {
+  navigation: AppNavigationProps['register'];
+};
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };
 
-const Register: React.FunctionComponent = () => {
+const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
   const tc = React.useContext(ThemeContext);
   const toast = useToast();
   const { createUser } = useAuth();
+  const { firebaseApp } = useFirebase();
   const [isAttemptingToRegister, setIsAttemptingToRegister] = React.useState(false);
 
   // assign form to state
@@ -37,56 +44,16 @@ const Register: React.FunctionComponent = () => {
     });
   };
 
-  // valid the submission displaying errors as required, if valid submit to cognito
+  // validate the submission displaying errors as required, if valid create a user and bootstrap their account
   const handleSubmit = async () => {
     setIsAttemptingToRegister(true);
-    const emailIsValid = VALID_EMAIL_RE.test(String(email).toLowerCase());
-    const passwordsMatch = pw === confirmPw;
-    const passwordIsValid = pw.length > 7;
+    const isFormValid = formValidation(pw, confirmPw, email, t, setFormData);
 
-    if (!emailIsValid) {
-      setFormData((prev: RegisterFormData) => {
-        return {
-          ...prev,
-          email: { value: prev.email.value, errMsg: t('translation:common.errors.email_format') },
-        };
-      });
-    } else {
-      setFormData((prev: RegisterFormData) => {
-        return { ...prev, email: { value: prev.email.value } };
-      });
-    }
+    if (isFormValid) {
+      const createUserResult = await createUser(email, pw);
+      const bootStrapUserResult = await bootstrapUser(firebaseApp, email);
 
-    if (!passwordsMatch) {
-      setFormData((prev: RegisterFormData) => {
-        return {
-          ...prev,
-          pw: { value: prev.pw.value, errMsg: t('translation:screens.public.register.errors.password_mismatch') },
-        };
-      });
-    } else {
-      setFormData((prev: RegisterFormData) => {
-        return { ...prev, pw: { value: prev.pw.value } };
-      });
-    }
-
-    if (!passwordIsValid) {
-      setFormData((prev: RegisterFormData) => {
-        return {
-          ...prev,
-          pw: { value: prev.pw.value, errMsg: t('translation:screens.public.register.errors.password_composition') },
-        };
-      });
-    } else if (passwordsMatch) {
-      setFormData((prev: RegisterFormData) => {
-        return { ...prev, pw: { value: prev.pw.value } };
-      });
-    }
-
-    if (emailIsValid && passwordIsValid && passwordsMatch) {
-      const result = await createUser(email, pw);
-
-      if (result) {
+      if (createUserResult && bootStrapUserResult) {
         toast.close('error');
         if (!toast.isActive('success')) {
           toast.show({
@@ -97,6 +64,9 @@ const Register: React.FunctionComponent = () => {
             description: t('translation:screens.public.register.toasts.success_description'),
           });
         }
+
+        // this was a success so we can switch pages now
+        navigation.navigate('home');
       } else {
         if (!toast.isActive('error')) {
           toast.show({

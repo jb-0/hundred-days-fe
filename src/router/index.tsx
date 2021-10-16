@@ -17,7 +17,11 @@ const Router: React.FunctionComponent = () => {
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="landing">
         {isAuthenticated ? (
-          <RootStack.Screen name="home" component={Home} options={{ title: 'Home' }} />
+          <>
+            <RootStack.Screen name="signIn" component={SignIn} options={{ title: 'Sign In' }} />
+            <RootStack.Screen name="register" component={Register} options={{ title: 'Register' }} />
+            <RootStack.Screen name="home" component={Home} options={{ title: 'Home' }} />
+          </>
         ) : (
           <>
             <RootStack.Screen name="landing" component={Landing} options={{ title: 'Sign In / Register' }} />
