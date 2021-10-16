@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Box, Text } from 'native-base';
 import { ThemeContext } from '../../../providers/Theme';
 
