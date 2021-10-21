@@ -12,4 +12,5 @@ export type RootStackParamList = {
 export interface AppNavigationProps {
   landing: StackNavigationProp<RootStackParamList, 'landing'>;
   register: StackNavigationProp<RootStackParamList, 'register'>;
+  signIn: StackNavigationProp<RootStackParamList, 'signIn'>;
 }

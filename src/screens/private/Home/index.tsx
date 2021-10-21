@@ -1,14 +1,12 @@
 import React from 'react';
-import { Box, Text } from 'native-base';
-import { ThemeContext } from '../../../providers/Theme';
+import { Layout } from '@ui-kitten/components';
 
 const Home: React.FunctionComponent = () => {
-  const tc = React.useContext(ThemeContext);
-
   return (
-    <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
-      <Text>Some authenticated page</Text>
-    </Box>
+    <Layout
+      style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 20 }}
+      testID="home-page"
+    ></Layout>
   );
 };
 

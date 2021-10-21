@@ -1,6 +1,7 @@
 {
   "common": {
     "errors": {
+      "error_occurred": "An error occurred",
       "email_format": "Email format invalid"
     }
   },
@@ -46,7 +47,7 @@
           "success_title": "Signed In",
           "success_description": "You are now signed in to the app",
           "error_title": "An error occurred",
-          "error_description": "The credentials you have provided are incorrect, please try again"
+          "error_description": "The credentials you have provided are invalid, please try again"
         },
         "fields": {
           "email": {

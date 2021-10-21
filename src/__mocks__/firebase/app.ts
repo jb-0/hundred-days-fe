@@ -21,6 +21,24 @@ const app = {
           },
         };
       },
+      firestore: () => {
+        return {
+          collection: (collection: string) => {
+            return {
+              doc: (email: string) => {
+                return {
+                  set: (record: string) => {
+                    return new Promise((resolve, reject) => {
+                      // if (email === 'baduser@email.com') reject(false);
+                      resolve(true);
+                    });
+                  },
+                };
+              },
+            };
+          },
+        };
+      },
     };
   },
 };
