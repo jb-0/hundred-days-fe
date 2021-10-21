@@ -1,9 +1,9 @@
 import React from 'react';
-import { render, fireEvent, cleanup, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native';
-import { NativeBaseWrapper } from '../../../utils/testHelpers';
 import SignIn from './';
+import { render, fireEvent, cleanup, waitFor, waitForElementToBeRemoved } from '@testing-library/react-native';
 import { AuthProvider } from '../../../providers';
-import { initiateTranslations } from '../../../providers';
+import { TestWrapper, navigation } from '../../../__helpers__';
+import { AppNavigationProps } from '../../../types/Navigation';
 
 jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
@@ -11,23 +11,23 @@ jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   select: () => null,
 }));
 
-initiateTranslations();
+const mockNav = navigation<AppNavigationProps['signIn']>();
 
 describe('Screen - Sign In', () => {
   afterEach(cleanup);
 
   it('allows user to sign in when valid inputs are provided', async () => {
-    const { getByTestId, getByLabelText, getByText } = render(
+    const { getByTestId, queryByTestId, getByPlaceholderText, getByText } = render(
       <AuthProvider>
-        <NativeBaseWrapper>
-          <SignIn />
-        </NativeBaseWrapper>
+        <TestWrapper>
+          <SignIn navigation={mockNav} />
+        </TestWrapper>
       </AuthProvider>,
     );
 
-    const emailInput = getByLabelText('Email');
-    const passwordInput = getByLabelText('Password');
-    const signInButton = getByTestId('sign-in-button');
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const signInButton = getByText('LOG IN');
 
     // populate all fields
     fireEvent(emailInput, 'onChangeText', 'someemail@nevergoingtoexistever.ahhno');
@@ -36,23 +36,25 @@ describe('Screen - Sign In', () => {
     // submit form
     fireEvent(signInButton, 'press');
 
-    await waitForElementToBeRemoved(() => getByLabelText('loading'));
+    await waitForElementToBeRemoved(() => getByTestId('spinning-loader'));
 
-    expect(getByText('You are now signed in to the app')).toBeTruthy;
+    // no error should not appear and an attempt to navigate to the home page should be made
+    expect(queryByTestId('page-error-card')).toBeFalsy();
+    expect(mockNav.navigate).toHaveBeenCalledWith('home');
   });
 
   it('prevents user signing in with a non existent account', async () => {
-    const { getByTestId, getByLabelText, getByText, debug } = render(
+    const { getByTestId, getByPlaceholderText, getByText, debug } = render(
       <AuthProvider>
-        <NativeBaseWrapper>
-          <SignIn />
-        </NativeBaseWrapper>
+        <TestWrapper>
+          <SignIn navigation={mockNav} />
+        </TestWrapper>
       </AuthProvider>,
     );
 
-    const emailInput = getByLabelText('Email');
-    const passwordInput = getByLabelText('Password');
-    const signInButton = getByTestId('sign-in-button');
+    const emailInput = getByPlaceholderText('Email');
+    const passwordInput = getByPlaceholderText('Password');
+    const signInButton = getByText('LOG IN');
 
     // populate all fields
     fireEvent(emailInput, 'onChangeText', 'baduser@email.com');
@@ -61,23 +63,23 @@ describe('Screen - Sign In', () => {
     // submit form
     fireEvent(signInButton, 'press');
 
-    await waitFor(() => getByTestId('error-toast'));
+    await waitFor(() => getByTestId('page-error-card'));
   });
 
   it('prevents user from submitting form when an invalid email is provided', () => {
-    const { getByText, getByTestId, getByLabelText } = render(
+    const { getByText, getByPlaceholderText } = render(
       <AuthProvider>
-        <NativeBaseWrapper>
-          <SignIn />
-        </NativeBaseWrapper>
+        <TestWrapper>
+          <SignIn navigation={mockNav} />
+        </TestWrapper>
       </AuthProvider>,
     );
 
     // populate all fields
-    fireEvent(getByLabelText('Email'), 'onChangeText', 'someemailnevergoingtoexistever.ahhno');
+    fireEvent(getByPlaceholderText('Email'), 'onChangeText', 'someemailnevergoingtoexistever.ahhno');
 
     // submit form
-    fireEvent(getByTestId('sign-in-button'), 'press');
+    fireEvent(getByText('LOG IN'), 'press');
 
     expect(getByText('Email format invalid')).toBeTruthy();
   });

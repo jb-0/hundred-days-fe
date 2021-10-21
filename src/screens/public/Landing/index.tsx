@@ -1,71 +1,58 @@
 import * as React from 'react';
-import { Box, Heading, Switch } from 'native-base';
-import { QuestionIcon } from 'native-base';
-import { ThemeContext } from '../../../providers/Theme';
 import { AppNavigationProps } from '../../../types/Navigation';
-import ThemedButton from '../../../components/ThemedButton';
 import { useTranslation } from 'react-i18next';
+import { Layout, Icon, Button } from '@ui-kitten/components';
+import TranslatedText from '../../../components/TranslatedText';
 
 type Props = {
   navigation: AppNavigationProps['landing'];
 };
 
+const HelpIcon = (props: unknown) => <Icon {...props} name="question-mark-circle-outline" />;
+
 const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
-  const switchMapping = { light: true, dark: false };
-  const tc = React.useContext(ThemeContext);
-  const [isChecked, setIsChecked] = React.useState<boolean>(switchMapping[tc.colorScheme]);
-
-  const toggleColor = () => {
-    tc.setColorScheme(tc.colorScheme === 'light' ? 'dark' : 'light');
-    setIsChecked(switchMapping[tc.colorScheme]);
-  };
-
-  React.useEffect(() => {
-    setIsChecked(switchMapping[tc.colorScheme]);
-  }, []);
 
   return (
-    <Box flex={1} alignItems="center" justifyContent="flex-start" bgColor={tc.bgColorScheme} px="20px">
-      <Box
-        flex={0.1}
-        justifyContent="space-between"
-        alignItems="center"
-        bgColor="transparent"
-        flexDirection="row"
-        flexWrap="nowrap"
-        width="100%"
+    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+      <Layout
+        style={{
+          flex: 0.1,
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          flexWrap: 'nowrap',
+          width: '100%',
+        }}
       >
-        <QuestionIcon color={tc.btnColorScheme} />
-        <Switch
-          size="lg"
-          isChecked={isChecked}
-          onToggle={toggleColor}
-          offTrackColor="warmGray.800"
-          offThumbColor="warmGray.600"
-          onTrackColor="warmGray.200"
-          onThumbColor="warmGray.600"
+        <Button appearance="ghost" accessoryLeft={HelpIcon} size="giant" />
+      </Layout>
+      <Layout
+        style={{
+          flex: 0.8,
+          alignSelf: 'flex-start',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <TranslatedText
+          category="h1"
+          style={{ textAlign: 'center', marginBottom: '30%', marginTop: '10%' }}
+          tKey={t('translation:screens.public.landing.welcome_message')}
         />
-      </Box>
-      <Box
-        flex={0.8}
-        alignSelf="flex-start"
-        justifyContent="center"
-        alignItems="center"
-        bgColor="transparent"
-        width="100%"
-      >
-        <Heading textAlign="center" color={tc.textColorScheme} my="4">
-          {t('translation:screens.public.landing.welcome_message')}
-        </Heading>
-        <ThemedButton onPress={() => navigation.navigate('signIn')} themeContext={tc}>
-          {t('translation:screens.public.landing.buttons.sign_in')}
-        </ThemedButton>
-        <ThemedButton onPress={() => navigation.navigate('register')} themeContext={tc}>
-          {t('translation:screens.public.landing.buttons.register')}
-        </ThemedButton>
-      </Box>
-    </Box>
+        <Button
+          onPress={() => navigation.navigate('signIn')}
+          style={{ marginBottom: 20 }}
+          size="large"
+          appearance="outline"
+        >
+          <TranslatedText tKey={t('translation:screens.public.landing.buttons.sign_in')} />
+        </Button>
+        <Button onPress={() => navigation.navigate('register')} size="large" appearance="outline">
+          <TranslatedText tKey={t('translation:screens.public.landing.buttons.register')} />
+        </Button>
+      </Layout>
+    </Layout>
   );
 };
 

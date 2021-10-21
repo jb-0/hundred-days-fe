@@ -1,20 +1,23 @@
 import * as React from 'react';
-import { Box, Heading, VStack, FormControl, Input, useToast } from 'native-base';
-import { ThemeContext } from '../../../providers/Theme';
-import ThemedButton from '../../../components/ThemedButton';
 import { useAuth } from '../../../providers';
 import { SignInFormData, FormItem } from '../../../types/Forms/SignIn';
 import { VALID_EMAIL_RE } from '../../../utils';
 import { useTranslation } from 'react-i18next';
+import { Button, Card, Input, Layout, Text } from '@ui-kitten/components';
+import { SpinningLoader, TranslatedText } from '../../../components';
+import { AppNavigationProps } from '../../../types/Navigation';
 
 const defaultFormItem: FormItem = { value: '', errMsg: '' };
 
-const SignIn: React.FunctionComponent = () => {
+type Props = {
+  navigation: AppNavigationProps['signIn'];
+};
+
+const SignIn: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
-  const tc = React.useContext(ThemeContext);
-  const toast = useToast();
   const { signIn } = useAuth();
   const [isAttemptingSignIn, setIsAttemptingSignIn] = React.useState(false);
+  const [isScreenErr, setIsScreenErr] = React.useState(false);
 
   // assign form to state
   const [formData, setFormData] = React.useState<SignInFormData>({ email: defaultFormItem, pw: defaultFormItem });
@@ -27,6 +30,7 @@ const SignIn: React.FunctionComponent = () => {
 
   // set state whenever an input changes
   const handleFormChange = (key: keyof SignInFormData, value: string) => {
+    setIsScreenErr(false);
     setFormData((prev: SignInFormData) => {
       return { ...prev, [key]: { value, errMsg: prev[key].errMsg } };
     });
@@ -41,6 +45,7 @@ const SignIn: React.FunctionComponent = () => {
       setFormData((prev: SignInFormData) => {
         return { ...prev, email: { value: prev.email.value, errMsg: t('translation:common.errors.email_format') } };
       });
+      setIsAttemptingSignIn(false);
     } else {
       setFormData((prev: SignInFormData) => {
         return { ...prev, email: { value: prev.email.value } };
@@ -50,71 +55,73 @@ const SignIn: React.FunctionComponent = () => {
     if (emailIsValid) {
       const result = await signIn(email, pw);
 
-      if (result) {
-        toast.close('error');
-        if (!toast.isActive('success')) {
-          toast.show({
-            id: 'success',
-            title: t('translation:screens.public.sign_in.toasts.success_title'),
-            status: 'success',
-            description: t('translation:screens.public.sign_in.toasts.success_description'),
-            testID: 'success-toast',
-          });
-        }
-      } else {
-        if (!toast.isActive('error')) {
-          toast.show({
-            id: 'error',
-            title: t('translation:screens.public.sign_in.toasts.error_title'),
-            status: 'error',
-            description: t('translation:screens.public.sign_in.toasts.error_description'),
-            testID: 'error-toast',
-          });
-        }
-      }
+      if (!result) setIsScreenErr(true);
+      setIsAttemptingSignIn(false);
+
+      if (result) navigation.navigate('home');
     }
-    setIsAttemptingSignIn(false);
   };
 
   return (
-    <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
-      <Heading color={tc.textColorScheme}>{t('translation:screens.public.sign_in.page_heading')}</Heading>
-      <VStack space={2} mt={5}>
-        <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>
-            {t('translation:screens.public.sign_in.fields.email.text')}
-          </FormControl.Label>
-          <Input
-            accessibilityLabel={t('translation:screens.public.sign_in.fields.email.text')}
-            value={email}
-            onChangeText={(value) => handleFormChange('email', value)}
-            w="300px"
-            _focus={{ borderColor: tc.textColorScheme }}
-            color={tc.textColorScheme}
-          />
-          <FormControl.ErrorMessage>{emailErr}</FormControl.ErrorMessage>
-        </FormControl>
-        <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-          <FormControl.Label _text={{ color: tc.textColorScheme }}>
-            {t('translation:screens.public.sign_in.fields.pw.text')}
-          </FormControl.Label>
-          <Input
-            value={pw}
-            accessibilityLabel={t('translation:screens.public.sign_in.fields.pw.text')}
-            onChangeText={(value) => handleFormChange('pw', value)}
-            w="300px"
-            type="password"
-            _focus={{ borderColor: tc.textColorScheme }}
-            color={tc.textColorScheme}
-          />
-        </FormControl>
-        <VStack space={2} justifyContent="center" alignItems="center">
-          <ThemedButton themeContext={tc} onPress={handleSubmit} isLoading={isAttemptingSignIn} testID="sign-in-button">
-            {t('translation:screens.public.sign_in.buttons.sign_in')}
-          </ThemedButton>
-        </VStack>
-      </VStack>
-    </Box>
+    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 20 }}>
+      <TranslatedText
+        category="h1"
+        style={{ textAlign: 'center', marginBottom: '30%', marginTop: '10%' }}
+        tKey={t('translation:screens.public.sign_in.page_heading')}
+      />
+
+      {/* Page error */}
+      {isScreenErr && (
+        <Card
+          testID="page-error-card"
+          status="danger"
+          header={<TranslatedText category="h6" tKey={t('translation:common.errors.error_occurred')} />}
+        >
+          <TranslatedText tKey={t('translation:screens.public.sign_in.toasts.error_description')} />
+        </Card>
+      )}
+
+      {/* Email */}
+      <Input
+        testID="email-input"
+        label={<TranslatedText tKey="translation:screens.public.sign_in.fields.email.text" />}
+        value={email}
+        placeholder={t('translation:screens.public.sign_in.fields.email.text')}
+        onChangeText={(value) => handleFormChange('email', value)}
+        size="medium"
+        status={emailErr && emailErr.length > 0 ? 'danger' : undefined}
+      />
+      <Text category="s2" status="danger" style={{ alignSelf: 'flex-start' }}>
+        {emailErr}
+      </Text>
+
+      {/* Password */}
+      <Input
+        testID="password-input"
+        label={<TranslatedText tKey="translation:screens.public.sign_in.fields.pw.text" />}
+        value={pw}
+        placeholder={t('translation:screens.public.sign_in.fields.pw.text')}
+        onChangeText={(value) => handleFormChange('pw', value)}
+        size="medium"
+        status={pwErr && pwErr.length > 0 ? 'danger' : undefined}
+        style={{ marginBottom: 30, marginTop: 10 }}
+        secureTextEntry={true}
+      />
+
+      <Button
+        onPress={handleSubmit}
+        size="large"
+        appearance="outline"
+        disabled={isAttemptingSignIn}
+        style={{ width: 150 }}
+      >
+        {isAttemptingSignIn ? (
+          <SpinningLoader />
+        ) : (
+          <TranslatedText tKey={t('translation:screens.public.sign_in.buttons.sign_in')} />
+        )}
+      </Button>
+    </Layout>
   );
 };
 
