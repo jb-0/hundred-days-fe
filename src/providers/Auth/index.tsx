@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createUser, signInWithEmail } from './utils';
+import { createUser, signInWithEmail, signOut } from './utils';
 import { IAuthContext } from '../../types/AuthContext';
 import firebase from 'firebase/app';
 import { useFirebase } from '../Firebase';
@@ -7,6 +7,7 @@ import { useFirebase } from '../Firebase';
 const AuthContext = React.createContext<IAuthContext>({
   createUser: () => Promise.reject(false),
   signIn: () => Promise.reject(false),
+  signOut: () => Promise.reject(false),
   currentUser: undefined,
   isAuthenticated: false,
   isVerified: false,
@@ -49,6 +50,14 @@ const AuthProvider: React.FC = ({ children }) => {
     signIn: async (email, password) => {
       try {
         const result = await signInWithEmail(firebaseApp, email, password);
+        return result;
+      } catch {
+        return false;
+      }
+    },
+    signOut: async () => {
+      try {
+        const result = await signOut(firebaseApp);
         return result;
       } catch {
         return false;
