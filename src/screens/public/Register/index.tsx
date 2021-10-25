@@ -16,10 +16,11 @@ const defaultFormItem: FormItem = { value: '', errMsg: '' };
 
 const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
-  const { createUser } = useAuth();
+  const { createUser, isAuthenticated, isVerified } = useAuth();
   const { firebaseApp } = useFirebase();
   const [isAttemptingToRegister, setIsAttemptingToRegister] = React.useState(false);
   const [isScreenErr, setIsScreenErr] = React.useState(false);
+  const [userCreatedSuccessfully, setUserCreatedSuccessfully] = React.useState(false);
 
   // assign form to state
   const [formData, setFormData] = React.useState<RegisterFormData>({
@@ -50,10 +51,10 @@ const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
 
     if (isFormValid) {
       const createUserResult = await createUser(email, pw);
-      const bootStrapUserResult = await bootstrapUser(firebaseApp, email);
+      const bootStrapUserResult = createUserResult ? await bootstrapUser(firebaseApp, email) : false;
 
       if (createUserResult && bootStrapUserResult) {
-        navigation.navigate('home');
+        setUserCreatedSuccessfully(true);
       } else {
         setIsScreenErr(true);
       }
@@ -61,8 +62,12 @@ const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
     setIsAttemptingToRegister(false);
   };
 
+  React.useEffect(() => {
+    if (isAuthenticated && userCreatedSuccessfully) navigation.navigate(isVerified ? 'app' : 'unverified');
+  }, [isAuthenticated, userCreatedSuccessfully]);
+
   return (
-    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 20 }}>
+    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 10 }}>
       <TranslatedText
         category="h1"
         style={{ textAlign: 'center', marginBottom: '30%', marginTop: '10%' }}
@@ -137,64 +142,6 @@ const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
       </Button>
     </Layout>
   );
-  // <Box flex={1} alignItems="center" justifyContent="center" bgColor={tc.bgColorScheme} px="20px">
-  //   <Heading color={tc.textColorScheme}>{t('translation:screens.public.register.page_heading')}</Heading>
-  //   <VStack space={2} mt={5}>
-  //     <FormControl isRequired isInvalid={emailErr && emailErr.length > 0 ? true : false}>
-  //       <FormControl.Label _text={{ color: tc.textColorScheme }}>
-  //         {t('translation:screens.public.register.fields.email.text')}
-  //       </FormControl.Label>
-  //       <Input
-  //         accessibilityLabel={t('translation:screens.public.register.fields.email.text')}
-  //         value={email}
-  //         onChangeText={(value) => handleFormChange('email', value)}
-  //         w="300px"
-  //         _focus={{ borderColor: tc.textColorScheme }}
-  //         color={tc.textColorScheme}
-  //       />
-  //       <FormControl.ErrorMessage>{emailErr}</FormControl.ErrorMessage>
-  //     </FormControl>
-  //     <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-  //       <FormControl.Label _text={{ color: tc.textColorScheme }}>
-  //         {t('translation:screens.public.register.fields.pw.text')}
-  //       </FormControl.Label>
-  //       <Input
-  //         accessibilityLabel={t('translation:screens.public.register.fields.pw.text')}
-  //         value={pw}
-  //         onChangeText={(value) => handleFormChange('pw', value)}
-  //         w="300px"
-  //         type="password"
-  //         _focus={{ borderColor: tc.textColorScheme }}
-  //         color={tc.textColorScheme}
-  //       />
-  //       <FormControl.ErrorMessage>{pwErr}</FormControl.ErrorMessage>
-  //     </FormControl>
-  //     <FormControl mb={5} isRequired isInvalid={pwErr && pwErr.length > 0 ? true : false}>
-  //       <FormControl.Label _text={{ color: tc.textColorScheme }}>
-  //         {t('translation:screens.public.register.fields.conf_pw.text')}
-  //       </FormControl.Label>
-  //       <Input
-  //         accessibilityLabel={t('translation:screens.public.register.fields.conf_pw.text')}
-  //         value={confirmPw}
-  //         onChangeText={(value) => handleFormChange('confirmPw', value)}
-  //         w="300px"
-  //         type="password"
-  //         _focus={{ borderColor: tc.textColorScheme }}
-  //         color={tc.textColorScheme}
-  //       />
-  //     </FormControl>
-  //     <VStack space={2} justifyContent="center" alignItems="center">
-  //       <ThemedButton
-  //         themeContext={tc}
-  //         onPress={handleSubmit}
-  //         isLoading={isAttemptingToRegister}
-  //         testID="register-button"
-  //       >
-  //         {t('translation:screens.public.register.buttons.register')}
-  //       </ThemedButton>
-  //     </VStack>
-  //   </VStack>
-  // </Box>
 };
 
 export default Register;
