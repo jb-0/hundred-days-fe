@@ -15,7 +15,7 @@ type Props = {
 
 const SignIn: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
-  const { signIn } = useAuth();
+  const { signIn, isVerified, isAuthenticated } = useAuth();
   const [isAttemptingSignIn, setIsAttemptingSignIn] = React.useState(false);
   const [isScreenErr, setIsScreenErr] = React.useState(false);
 
@@ -55,15 +55,21 @@ const SignIn: React.FunctionComponent<Props> = ({ navigation }: Props) => {
     if (emailIsValid) {
       const result = await signIn(email, pw);
 
-      if (!result) setIsScreenErr(true);
-      setIsAttemptingSignIn(false);
+      if (!result) {
+        setIsScreenErr(true);
+      }
 
-      if (result) navigation.navigate('home');
+      setIsAttemptingSignIn(false);
     }
   };
 
+  // listen for auth state changes and route the user accordingly
+  React.useEffect(() => {
+    if (isAuthenticated) navigation.navigate(isVerified ? 'app' : 'unverified');
+  }, [isAuthenticated]);
+
   return (
-    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 20 }}>
+    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 10 }}>
       <TranslatedText
         category="h1"
         style={{ textAlign: 'center', marginBottom: '30%', marginTop: '10%' }}

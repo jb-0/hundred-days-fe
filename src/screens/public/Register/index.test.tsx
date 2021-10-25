@@ -36,9 +36,9 @@ describe('Screen - Register', () => {
 
     await waitForElementToBeRemoved(() => getByTestId('spinning-loader'));
 
-    // no error should not appear and an attempt to navigate to the home page should be made
+    // no error should not appear and an attempt to navigate to the app page should be made
     expect(queryByTestId('page-error-card')).toBeFalsy();
-    expect(mockNav.navigate).toHaveBeenCalledWith('home');
+    expect(mockNav.navigate).toHaveBeenCalledWith('unverified');
   });
 
   it('prevents user from submitting form when an invalid email is provided', () => {

@@ -14,18 +14,8 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
   const { t } = useTranslation();
 
   return (
-    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-      <Layout
-        style={{
-          flex: 0.1,
-          justifyContent: 'space-between',
-          alignItems: 'flex-start',
-          flexWrap: 'nowrap',
-          width: '100%',
-        }}
-      >
-        <Button appearance="ghost" accessoryLeft={HelpIcon} size="giant" />
-      </Layout>
+    <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 10 }}>
+      <Button appearance="ghost" accessoryLeft={HelpIcon} size="giant" style={{ marginRight: 'auto' }} />
       <Layout
         style={{
           flex: 0.8,

@@ -6,6 +6,15 @@
     }
   },
   "screens": {
+    "private": {
+      "unverified": {
+        "page_heading": "Verification Required",
+        "message": "To use this app you must verify your email. An email with details on how to verify your account was sent to the email address below, please check your junk folder.",
+        "buttons": {
+          "sign_out": "LOG OUT"
+        }
+      }
+    },
     "public": {
       "landing": {
         "welcome_message": "Welcome to one hundred days",

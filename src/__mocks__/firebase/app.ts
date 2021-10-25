@@ -2,7 +2,7 @@ const app = {
   apps: { length: 0 },
   initializeApp: () => {
     return {
-      auth: () => {
+      auth: (mockMode: 'verified' | 'unverified' | undefined = 'unverified') => {
         return {
           signInWithEmailAndPassword: (email: string, password: string) => {
             return new Promise((resolve, reject) => {
@@ -19,6 +19,18 @@ const app = {
               });
             });
           },
+          currentUser: (() => {
+            if (!mockMode) return undefined;
+            else if (mockMode === 'verified') {
+              return {
+                emailVerified: true,
+              };
+            } else if (mockMode === 'unverified') {
+              return {
+                emailVerified: false,
+              };
+            }
+          })(),
         };
       },
       firestore: () => {
