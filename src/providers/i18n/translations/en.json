@@ -5,6 +5,15 @@
       "email_format": "Email format invalid"
     }
   },
+  "components": {
+    "log_out_modal": {
+      "message": "Please click the sign out button below if you wish to sign out of the application.",
+      "buttons": {
+        "log_out": "SIGN OUT",
+        "dismiss": "DISMISS"
+      }
+    }
+  },
   "screens": {
     "private": {
       "unverified": {
@@ -12,6 +21,12 @@
         "message": "To use this app you must verify your email. An email with details on how to verify your account was sent to the email address below, please check your junk folder.",
         "buttons": {
           "sign_out": "LOG OUT"
+        }
+      },
+      "app": {
+        "bottom_nav": {
+          "list": "List",
+          "stats": "Stats"
         }
       }
     },

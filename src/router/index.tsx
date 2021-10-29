@@ -23,7 +23,7 @@ const Router: React.FunctionComponent = () => {
       <RootStack.Navigator initialRouteName="landing">
         {isAuthenticated ? (
           <>
-            {isVerified ? <RootStack.Screen name="app" component={App} options={{ title: 'App' }} /> : null}
+            {isVerified ? <RootStack.Screen name="app" component={App} options={{ headerShown: false }} /> : null}
             <RootStack.Screen name="unverified" component={Unverified} options={{ title: 'Verification Required' }} />
             <RootStack.Screen name="signIn" component={SignIn} options={headerOptions} />
             <RootStack.Screen name="register" component={Register} options={headerOptions} />
