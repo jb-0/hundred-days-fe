@@ -15,15 +15,5 @@ import { DiaryEntry } from './diaryEntry';
  * A diary, the container document for storing user entries
  */
 export interface Diary { 
-    dateDisplayFormat?: Diary.DateDisplayFormatEnum;
     entries?: Array<DiaryEntry>;
-}
-export namespace Diary {
-    export type DateDisplayFormatEnum = 'dd/mm/yyyy' | 'm/d/yyyy' | 'dd-mm-yyyy' | 'm-d-yyyy';
-    export const DateDisplayFormatEnum = {
-        Ddmmyyyy: 'dd/mm/yyyy' as DateDisplayFormatEnum,
-        Mdyyyy: 'm/d/yyyy' as DateDisplayFormatEnum,
-        DdMmYyyy: 'dd-mm-yyyy' as DateDisplayFormatEnum,
-        MDYyyy: 'm-d-yyyy' as DateDisplayFormatEnum
-    };
 }

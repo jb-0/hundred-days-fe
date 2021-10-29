@@ -9,20 +9,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { Diary } from './diary';
-import { NewUser } from './newUser';
+import { Settings } from './settings';
 
-/**
- * Represents an application user
- */
-export interface User extends NewUser { 
-    profilePhotoUrl?: string;
-    preferredLanguage?: User.PreferredLanguageEnum;
-}
-export namespace User {
-    export type PreferredLanguageEnum = 'en-GB' | 'en-US';
-    export const PreferredLanguageEnum = {
-        GB: 'en-GB' as PreferredLanguageEnum,
-        US: 'en-US' as PreferredLanguageEnum
-    };
+export interface User { 
+    email: string;
+    settings: Settings;
 }
