@@ -101,13 +101,10 @@ components:
       properties:
         date:
           type: string
-          format: date
         createdAt:
           type: string
-          format: date-time
         lastUpdated:
           type: string
-          format: date-time
         freeText:
           type: string
           minLength: 5
