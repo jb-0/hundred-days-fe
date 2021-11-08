@@ -15,8 +15,8 @@
  */
 export interface DiaryEntry { 
     date: string;
-    createdAt?: Date;
-    lastUpdated?: Date;
+    createdAt?: string;
+    lastUpdated?: string;
     freeText?: string;
     tags?: Array<string>;
 }

@@ -12,7 +12,7 @@
 import { DiaryEntry } from './diaryEntry';
 
 /**
- * A diary, the container document for storing user entries
+ * A diary, the container document for storing all user entries
  */
 export interface Diary { 
     entries?: Array<DiaryEntry>;

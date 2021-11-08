@@ -51,7 +51,7 @@ const Register: React.FunctionComponent<Props> = ({ navigation }: Props) => {
 
     if (isFormValid) {
       const createUserResult = await createUser(email, pw);
-      const bootStrapUserResult = createUserResult ? await bootstrapUser(firebaseApp, email) : false;
+      const bootStrapUserResult = createUserResult ? await bootstrapUser(firebaseApp) : false;
 
       if (createUserResult && bootStrapUserResult) {
         setUserCreatedSuccessfully(true);

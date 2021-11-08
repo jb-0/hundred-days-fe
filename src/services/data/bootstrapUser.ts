@@ -1,21 +1,23 @@
 import firebase from 'firebase/app';
 import { models } from '../../types';
 
-export const bootstrapUser = async (firebaseApp: firebase.app.App, email: string): Promise<boolean> => {
+export const bootstrapUser = async (firebaseApp: firebase.app.App): Promise<boolean> => {
   const db = firebaseApp.firestore();
-  const cleanEmail = email?.toLowerCase();
+  const cleanEmail = firebaseApp.auth().currentUser?.email?.toLowerCase();
   const timestamp = new Date();
 
   try {
+    if (!cleanEmail) throw Error('email undefined');
+
     const newUserRecord: models.User = {
       email: cleanEmail,
       settings: { dateDisplayFormat: 'dd/mm/yyyy', preferredLanguage: 'en-GB' },
     };
 
     const sampleDiaryEntry: models.DiaryEntry = {
-      date: timestamp.toDateString(),
-      createdAt: timestamp,
-      lastUpdated: timestamp,
+      date: timestamp.toISOString(),
+      createdAt: timestamp.toISOString(),
+      lastUpdated: timestamp.toISOString(),
       freeText: 'Welcome to your diary! This is your first entry',
     };
 
