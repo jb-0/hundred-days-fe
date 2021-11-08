@@ -19,18 +19,9 @@ const app = {
               });
             });
           },
-          currentUser: (() => {
-            if (!mockMode) return undefined;
-            else if (mockMode === 'verified') {
-              return {
-                emailVerified: true,
-              };
-            } else if (mockMode === 'unverified') {
-              return {
-                emailVerified: false,
-              };
-            }
-          })(),
+          currentUser: {
+            email: 'someuser@mail.com',
+          },
         };
       },
       firestore: () => {
@@ -44,6 +35,20 @@ const app = {
                       // if (email === 'baduser@email.com') reject(false);
                       resolve(true);
                     });
+                  },
+                  collection: (collection: string) => {
+                    return {
+                      doc: (email: string) => {
+                        return {
+                          set: (record: string) => {
+                            return new Promise((resolve, reject) => {
+                              // if (email === 'baduser@email.com') reject(false);
+                              resolve(true);
+                            });
+                          },
+                        };
+                      },
+                    };
                   },
                 };
               },
