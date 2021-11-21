@@ -25,7 +25,7 @@ const App: React.FunctionComponent = () => {
   return (
     <>
       <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
-        <LogOutModal visible={modal} setVisibility={setModal} />
+        <LogOutModal visible={modal} setVisibility={setModal} onBackdropPress={() => setModal(false)} />
         <Button
           appearance="ghost"
           accessoryLeft={LogOutIcon}
