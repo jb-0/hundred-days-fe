@@ -7,6 +7,7 @@ import Register from '../screens/public/Register';
 
 import Unverified from '../screens/private/Unverified';
 import App from '../screens/private/App';
+import DiaryEntry from '../screens/private/App/DiaryEntry';
 
 import { useAuth } from '../providers';
 
@@ -23,7 +24,12 @@ const Router: React.FunctionComponent = () => {
       <RootStack.Navigator initialRouteName="landing">
         {isAuthenticated ? (
           <>
-            {isVerified ? <RootStack.Screen name="app" component={App} options={{ headerShown: false }} /> : null}
+            {isVerified ? (
+              <>
+                <RootStack.Screen name="app" component={App} options={{ headerShown: false }} />
+                <RootStack.Screen name="diaryEntry" component={DiaryEntry} options={{ headerShown: false }} />
+              </>
+            ) : null}
             <RootStack.Screen name="unverified" component={Unverified} options={{ title: 'Verification Required' }} />
             <RootStack.Screen name="signIn" component={SignIn} options={headerOptions} />
             <RootStack.Screen name="register" component={Register} options={headerOptions} />
