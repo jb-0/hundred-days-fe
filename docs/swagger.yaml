@@ -99,6 +99,8 @@ components:
       required:
         - date
       properties:
+        id:
+          type: string
         date:
           type: string
         createdAt:
