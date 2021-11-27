@@ -12,8 +12,8 @@ const mockNav = navigation<AppNavigationProps['register']>();
 describe('Screen - Register', () => {
   afterEach(cleanup);
 
-  it('allows user to submit form when valid inputs are provided', async () => {
-    const { getByTestId, getByText, queryByTestId, getByPlaceholderText } = render(
+  it.only('allows user to submit form when valid inputs are provided', async () => {
+    const { getByTestId, getByText, queryByTestId, getByPlaceholderText, debug } = render(
       <AuthProvider>
         <TestWrapper>
           <Register navigation={mockNav} />
@@ -23,7 +23,7 @@ describe('Screen - Register', () => {
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');
-    const passwordConfInput = getByPlaceholderText('Confirm Password');
+    const passwordConfInput = getByPlaceholderText('Confirm password');
     const registerButton = getByText('REGISTER');
 
     // populate all fields
@@ -52,7 +52,7 @@ describe('Screen - Register', () => {
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');
-    const passwordConfInput = getByPlaceholderText('Confirm Password');
+    const passwordConfInput = getByPlaceholderText('Confirm password');
     const registerButton = getByText('REGISTER');
 
     // populate all fields
@@ -77,7 +77,7 @@ describe('Screen - Register', () => {
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');
-    const passwordConfInput = getByPlaceholderText('Confirm Password');
+    const passwordConfInput = getByPlaceholderText('Confirm password');
     const registerButton = getByText('REGISTER');
 
     // populate all fields
@@ -102,7 +102,7 @@ describe('Screen - Register', () => {
 
     const emailInput = getByPlaceholderText('Email');
     const passwordInput = getByPlaceholderText('Password');
-    const passwordConfInput = getByPlaceholderText('Confirm Password');
+    const passwordConfInput = getByPlaceholderText('Confirm password');
     const registerButton = getByText('REGISTER');
 
     // populate all fields

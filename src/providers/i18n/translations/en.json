@@ -16,8 +16,29 @@
   },
   "screens": {
     "private": {
+      "entries_list": {
+        "buttons": {
+          "view": "VIEW"
+        }
+      },
+      "diary_entry": {
+        "page_heading_create": "New entry",
+        "page_heading_edit": "Edit entry",
+        "tags_section_header": "Tags ({{count}} selected)",
+        "fields": {
+          "date": {
+            "label": "Entry date",
+            "placeholder": "Select a date",
+            "required_error": "You must select a date to create an entry"
+          },
+          "free_text": {
+            "label": "Notes",
+            "placeholder": "Optional, provide some information about how the selected date went and what you did"
+          }
+        }
+      },
       "unverified": {
-        "page_heading": "Verification Required",
+        "page_heading": "Verification required",
         "message": "To use this app you must verify your email. An email with details on how to verify your account was sent to the email address below, please check your junk folder.",
         "buttons": {
           "sign_out": "LOG OUT"
@@ -58,7 +79,7 @@
             "text": "Password"
           },
           "conf_pw": {
-            "text": "Confirm Password"
+            "text": "Confirm password"
           }
         },
         "buttons": {
@@ -68,7 +89,7 @@
       "sign_in": {
         "page_heading": "Sign In",
         "toasts": {
-          "success_title": "Signed In",
+          "success_title": "Signed in",
           "success_description": "You are now signed in to the app",
           "error_title": "An error occurred",
           "error_description": "The credentials you have provided are invalid, please try again"

@@ -14,6 +14,7 @@
  * A diary entry item is the core data structure for capturing user data
  */
 export interface DiaryEntry { 
+    id?: string;
     date: string;
     createdAt?: string;
     lastUpdated?: string;
