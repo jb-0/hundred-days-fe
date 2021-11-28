@@ -5,6 +5,8 @@ export const bootstrapUser = async (firebaseApp: firebase.app.App): Promise<bool
   const db = firebaseApp.firestore();
   const cleanEmail = firebaseApp.auth().currentUser?.email?.toLowerCase();
   const timestamp = new Date();
+  const timestampAtMidnight = new Date();
+  timestampAtMidnight.setHours(0, 0, 0, 0);
 
   try {
     if (!cleanEmail) throw Error('email undefined');
@@ -15,7 +17,7 @@ export const bootstrapUser = async (firebaseApp: firebase.app.App): Promise<bool
     };
 
     const sampleDiaryEntry: models.DiaryEntry = {
-      date: timestamp.toISOString(),
+      date: timestampAtMidnight.toISOString(),
       createdAt: timestamp.toISOString(),
       lastUpdated: timestamp.toISOString(),
       freeText: 'Welcome to your diary! This is your first entry',
