@@ -60,13 +60,20 @@ const App: React.FunctionComponent<Props> = ({ navigation }: Props) => {
             size="giant"
             style={{ marginRight: 'auto' }}
             onPress={() => navigation.navigate('diaryEntry', { sender: 'create' })}
+            testID="create-button"
           />
-          <Button appearance="ghost" accessoryLeft={LogOutIcon} size="giant" onPress={() => setModal(true)} />
+          <Button
+            appearance="ghost"
+            accessoryLeft={LogOutIcon}
+            size="giant"
+            onPress={() => setModal(true)}
+            testID="log-out-button"
+          />
         </Layout>
 
         <ScrollView
           style={{ flex: 1, paddingHorizontal: 10 }}
-          testID="home-page"
+          testID="app-page"
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
           {renderTab()}

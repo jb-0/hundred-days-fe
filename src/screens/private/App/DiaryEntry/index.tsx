@@ -185,9 +185,12 @@ const DiaryEntry: React.FunctionComponent<Props> = ({ navigation }: Props) => {
                   flexWrap: 'wrap',
                   justifyContent: 'space-between',
                 }}
+                testID="tags-layout"
               >
                 {Object.keys(tagIcons).map((tagKey) => {
                   const key = tagKey as PermittedTags;
+                  const appearance = tags.includes(key) ? 'outline' : 'ghost';
+
                   return (
                     <Button
                       key={key}
@@ -195,9 +198,10 @@ const DiaryEntry: React.FunctionComponent<Props> = ({ navigation }: Props) => {
                       style={{
                         margin: 2,
                       }}
-                      appearance={tags.includes(key) ? 'outline' : 'ghost'}
+                      appearance={appearance}
                       onPress={() => setTags(toggleValueInList(key, tags))}
                       accessoryLeft={tagIcons[key].icon}
+                      testID={`${key}-button-${appearance}`}
                     />
                   );
                 })}
