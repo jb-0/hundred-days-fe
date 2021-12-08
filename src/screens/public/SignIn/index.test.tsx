@@ -5,7 +5,7 @@ import { AuthProvider } from '../../../providers';
 import { TestWrapper, navigation } from '../../../__helpers__';
 import { AppNavigationProps } from '../../../types/Navigation';
 
-jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 jest.mock('react-native/Libraries/Utilities/Platform', () => ({
   OS: 'android',
   select: () => null,

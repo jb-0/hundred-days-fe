@@ -5,14 +5,14 @@ import { AuthProvider } from '../../../providers';
 import { navigation, TestWrapper } from '../../../__helpers__';
 import { AppNavigationProps } from '../../../types/Navigation';
 
-jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+jest.mock('react-native/Libraries/Animated/NativeAnimatedHelper');
 
 const mockNav = navigation<AppNavigationProps['register']>();
 
 describe('Screen - Register', () => {
   afterEach(cleanup);
 
-  it.only('allows user to submit form when valid inputs are provided', async () => {
+  it('allows user to submit form when valid inputs are provided', async () => {
     const { getByTestId, getByText, queryByTestId, getByPlaceholderText, debug } = render(
       <AuthProvider>
         <TestWrapper>
