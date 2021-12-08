@@ -36,6 +36,7 @@ const EntryCard: React.FunctionComponent<ICardProps> = ({ entry, viewOnClick }: 
         borderColor: theme['border-alternative-color-1'],
       }}
       header={slimCard ? undefined : <CardHeader title={date} />}
+      testID={`entry-card${slimCard ? '-slim' : ''}`}
     >
       {slimCard ? (
         <View

@@ -1,3 +1,4 @@
+import { Layout } from '@ui-kitten/components';
 import * as React from 'react';
 import { useFirebase } from '../../../../providers';
 import { getDiaryEntries } from '../../../../services/data';
@@ -37,13 +38,13 @@ const EntriesList: React.FunctionComponent<IEntriesList> = ({
   }, [refreshing]);
 
   return (
-    <>
+    <Layout testID="entries-list-view">
       {entries?.map((entry) => {
         return (
           <EntryCard key={entry.id} entry={entry} viewOnClick={(entry: models.DiaryEntry) => viewOnClick(entry)} />
         );
       })}
-    </>
+    </Layout>
   );
 };
 
