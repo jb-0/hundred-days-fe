@@ -20,9 +20,11 @@ const LogOutModal: React.FunctionComponent<ILogOutModalProps> = ({
 
   const handleSignOut = async () => {
     setIsSigningOut(true);
-    await signOut();
-    setVisibility(false);
-    setIsSigningOut(false);
+    const res = await signOut();
+    if (!res) {
+      setVisibility(false);
+      setIsSigningOut(false);
+    }
   };
 
   return (
