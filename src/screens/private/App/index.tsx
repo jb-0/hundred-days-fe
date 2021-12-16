@@ -1,11 +1,12 @@
 import React from 'react';
-import { BottomNavigation, BottomNavigationTab, Button, Icon, Layout, Text } from '@ui-kitten/components';
+import { BottomNavigation, BottomNavigationTab, Button, Icon, Layout } from '@ui-kitten/components';
 import { useTranslation } from 'react-i18next';
 import LogOutModal from '../../../components/LogOutModal';
 import EntriesList from './EntriesList';
 import { AppNavigationProps } from '../../../types/Navigation';
 import { RefreshControl, ScrollView } from 'react-native';
 import { models } from '../../../types';
+import Stats from './Stats';
 const ListIcon = (props: unknown) => <Icon {...props} name="list-outline" />;
 const ChartIcon = (props: unknown) => <Icon {...props} name="pie-chart-outline" />;
 const LogOutIcon = (props: unknown) => <Icon {...props} name="log-out-outline" />;
@@ -32,7 +33,7 @@ const App: React.FunctionComponent<Props> = ({ navigation }: Props) => {
           />
         );
       default:
-        return <></>;
+        return <Stats refreshing={refreshing} setRefreshing={(value: boolean) => setRefreshing(value)} />;
     }
   };
 
@@ -72,7 +73,7 @@ const App: React.FunctionComponent<Props> = ({ navigation }: Props) => {
         </Layout>
 
         <ScrollView
-          style={{ flex: 1, paddingHorizontal: 10 }}
+          style={{ flex: 1, paddingHorizontal: 10, width: '100%' }}
           testID="app-page"
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
