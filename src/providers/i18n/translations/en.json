@@ -37,6 +37,12 @@
           }
         }
       },
+      "stats": {
+        "page_heading": "Last 100 days",
+        "contribution_graph": "Activity",
+        "pie_chart": "Most used (days)",
+        "no_entries": "Create some diary entries first, then return to this page"
+      },
       "unverified": {
         "page_heading": "Verification required",
         "message": "To use this app you must verify your email. An email with details on how to verify your account was sent to the email address below, please check your junk folder.",

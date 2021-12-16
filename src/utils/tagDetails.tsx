@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { PermittedTags } from '../types';
 
-export const tagIcons: Record<PermittedTags, { label: string; icon: JSX.Element }> = {
+export const tagDetails: Record<PermittedTags, { label: string; icon: JSX.Element }> = {
   html: { label: 'HTML', icon: <FontAwesome5 name="html5" size={24} color="black" /> },
   css: { label: 'CSS', icon: <FontAwesome5 name="css3" size={24} color="black" /> },
   javascript: { label: 'JavaScript', icon: <Ionicons name="logo-javascript" size={24} color="black" /> },

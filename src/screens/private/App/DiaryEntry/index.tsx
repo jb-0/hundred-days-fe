@@ -7,7 +7,7 @@ import { TranslatedText } from '../../../../components';
 import { useTranslation } from 'react-i18next';
 import { models, PermittedTags } from '../../../../types';
 import { RouteProp, useRoute } from '@react-navigation/core';
-import { tagIcons, toggleValueInList } from '../../../../utils';
+import { tagDetails as tagIcons, toggleValueInList } from '../../../../utils';
 import { createNewDiaryEntry, getSingleDiaryEntry, updateDiaryEntry } from '../../../../services/data';
 import { useFirebase } from '../../../../providers';
 
