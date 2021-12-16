@@ -15,10 +15,11 @@ const Landing: React.FunctionComponent<Props> = ({ navigation }: Props) => {
 
   return (
     <Layout style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center', paddingHorizontal: 10 }}>
-      <Button appearance="ghost" accessoryLeft={HelpIcon} size="giant" style={{ marginRight: 'auto' }} />
+      {/* <Button appearance="ghost" accessoryLeft={HelpIcon} size="giant" style={{ marginRight: 'auto' }} /> */}
       <Layout
         style={{
-          flex: 0.8,
+          // flex: 0.8,
+          flex: 1,
           alignSelf: 'flex-start',
           justifyContent: 'flex-start',
           alignItems: 'center',
