@@ -1,0 +1,117 @@
+{
+  "common": {
+    "errors": {
+      "error_occurred": "An error occurred",
+      "email_format": "Email format invalid"
+    }
+  },
+  "components": {
+    "log_out_modal": {
+      "message": "Please click the sign out button below if you wish to sign out of the application.",
+      "buttons": {
+        "log_out": "SIGN OUT",
+        "dismiss": "DISMISS"
+      }
+    }
+  },
+  "screens": {
+    "private": {
+      "entries_list": {
+        "buttons": {
+          "view": "VIEW"
+        }
+      },
+      "diary_entry": {
+        "page_heading_create": "New entry",
+        "page_heading_edit": "Edit entry",
+        "tags_section_header": "Tags ({{count}} selected)",
+        "fields": {
+          "date": {
+            "label": "Entry date",
+            "placeholder": "Select a date",
+            "required_error": "You must select a date to create an entry"
+          },
+          "free_text": {
+            "label": "Notes",
+            "placeholder": "Optional, provide some information about how the selected date went and what you did"
+          }
+        }
+      },
+      "stats": {
+        "page_heading": "Last 100 days",
+        "contribution_graph": "Activity",
+        "pie_chart": "Most used (days)",
+        "no_entries": "Create some diary entries first, then return to this page"
+      },
+      "unverified": {
+        "page_heading": "Verification required",
+        "message": "To use this app you must verify your email. An email with details on how to verify your account was sent to the email address below, please check your junk folder.",
+        "buttons": {
+          "sign_out": "LOG OUT"
+        }
+      },
+      "app": {
+        "bottom_nav": {
+          "list": "List",
+          "stats": "Stats"
+        }
+      }
+    },
+    "public": {
+      "landing": {
+        "welcome_message": "Welcome to one hundred days",
+        "buttons": {
+          "sign_in": "LOG IN",
+          "register": "REGISTER"
+        }
+      },
+      "register": {
+        "page_heading": "Register",
+        "errors": {
+          "password_mismatch": "Passwords do not match",
+          "password_composition": "Passwords must be at least 8 characters"
+        },
+        "toasts": {
+          "success_title": "Verification email sent",
+          "success_description": "Thanks for signing up, check your inbox for verification steps",
+          "error_title": "An error occurred",
+          "error_description": "We were unable to create your account, please try again later."
+        },
+        "fields": {
+          "email": {
+            "text": "Email"
+          },
+          "pw": {
+            "text": "Password"
+          },
+          "conf_pw": {
+            "text": "Confirm password"
+          }
+        },
+        "buttons": {
+          "register": "REGISTER"
+        }
+      },
+      "sign_in": {
+        "page_heading": "Sign In",
+        "toasts": {
+          "success_title": "Signed in",
+          "success_description": "You are now signed in to the app",
+          "error_title": "An error occurred",
+          "error_description": "The credentials you have provided are invalid, please try again"
+        },
+        "fields": {
+          "email": {
+            "text": "Email"
+          },
+          "pw": {
+            "text": "Password"
+          }
+        },
+        "buttons": {
+          "sign_in": "LOG IN"
+        }
+      }
+    }
+  }
+}

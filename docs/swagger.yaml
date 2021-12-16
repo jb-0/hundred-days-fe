@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: Hundred days
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/jb-0/HundredDays/1.0.0
+  - url: 'https://petstore.swagger.io/v2'
+paths:
+  /user:
+      get:
+        summary: Currently authenticated user
+        responses:
+          '200':
+            description: Returns a user object
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+  /user/new:
+    post:
+      summary: Should be called once on successfull registration, bootstraps the user record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Returns a user object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+  /diary:
+    get:
+      summary: Currently authenticated user's diary
+      responses:
+        '200':
+          description: Returns a full diary object for the logged in user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Diary'
+components:
+  schemas:
+    User:
+      required:
+        - email
+        - settings
+      properties:
+        email:
+          type: string
+        settings:
+            $ref: '#/components/schemas/Settings'
+      xml:
+        name: User
+    
+    Settings:
+      description: The user settings
+      type: object
+      required:
+        - dateFormat
+      properties:
+        dateDisplayFormat:
+          type: string
+          enum:
+            - "dd/mm/yyyy"
+            - "m/d/yyyy"
+            - "dd-mm-yyyy"
+            - "m-d-yyyy"
+        preferredLanguage:
+          type: string
+          enum:
+            - en-GB
+            - en-US
+      xml:
+        name: Settings
+    
+    Diary:
+      description: A diary, the container document for storing all user entries
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiaryEntry'
+      xml:
+        name: Diary
+  
+    DiaryEntry:
+      description: A diary entry item is the core data structure for capturing user data
+      type: object
+      required:
+        - date
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+        createdAt:
+          type: string
+        lastUpdated:
+          type: string
+        freeText:
+          type: string
+          minLength: 5
+          maxLength: 250
+        tags:
+          type: array
+          items:
+            type: string
+      xml:
+        name: DiaryEntry
