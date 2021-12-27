@@ -1,0 +1,21 @@
+{
+  'plugins':
+    [
+      '@semantic-release/commit-analyzer',
+      [
+        '@google/semantic-release-replace-plugin',
+        {
+          'replacements':
+            [
+              {
+                'files': ['app.json'],
+                'from': '"version": "*"',
+                'to': '"version": "${nextRelease.version}"',
+                'results': [{ 'file': 'app.json', 'hasChanged': true, 'numMatches': 1, 'numReplacements': 1 }],
+                'countMatches': true,
+              },
+            ],
+        },
+      ],
+    ],
+}
