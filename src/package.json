@@ -18,14 +18,28 @@
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
       "@semantic-release/npm",
+      [
+        "@google/semantic-release-replace-plugin",
+        {
+          "replacements": [
+            {
+              "files": [
+                "app.json"
+              ],
+              "from": "\"version\": \".*\"",
+              "to": "\"version\": \"${nextRelease.version}\"",
+              "countMatches": true
+            }
+          ]
+        }
+      ],
       "@semantic-release/github",
       [
-        "semantic-release-plugin-update-version-in-files",
+        "@semantic-release/git",
         {
-          "files": [
+          "assets": [
             "app.json"
-          ],
-          "placeholder": "0.0.0-development"
+          ]
         }
       ]
     ]
