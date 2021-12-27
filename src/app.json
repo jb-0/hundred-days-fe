@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "hundred-days-fe",
-    "slug": "hundred-days-fe",
+    "name": "100 days",
+    "slug": "one-hundred-days",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,9 +15,7 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -25,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "one.hundred.days"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
