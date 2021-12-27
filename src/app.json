@@ -2,7 +2,7 @@
   "expo": {
     "name": "100 days",
     "slug": "one-hundred-days",
-    "version": "0.0.0-development",
+    "version": "1.1.7",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
