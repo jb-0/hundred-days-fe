@@ -24,7 +24,8 @@
         {
           "files": [
             "app.json"
-          ]
+          ],
+          "placeholder": "0.0.0-development"
         }
       ]
     ]
