@@ -20,33 +20,10 @@
       "@semantic-release/npm",
       "@semantic-release/github",
       [
-        "@semantic-release/git",
+        "semantic-release-plugin-update-version-in-files",
         {
-          "assets": [
+          "files": [
             "app.json"
-          ]
-        }
-      ],
-      [
-        "@google/semantic-release-replace-plugin",
-        {
-          "replacements": [
-            {
-              "files": [
-                "app.json"
-              ],
-              "from": "\"version\": \".*\"",
-              "to": "\"version\": \"${nextRelease.version}\"",
-              "results": [
-                {
-                  "file": "app.json",
-                  "hasChanged": true,
-                  "numMatches": 1,
-                  "numReplacements": 1
-                }
-              ],
-              "countMatches": true
-            }
           ]
         }
       ]
@@ -113,6 +90,7 @@
     "react-devtools": "^4.15.0",
     "react-test-renderer": "^17.0.2",
     "semantic-release": "^17.4.7",
+    "semantic-release-plugin-update-version-in-files": "^1.1.0",
     "typescript": "~4.3.5"
   },
   "private": true
