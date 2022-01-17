@@ -88,5 +88,5 @@ jobs:
 
       - name: Build on EAS
         if: ${{ steps.semantic.outputs.NEXT_VERSION }}
-        run: npx eas build --platform android
+        run: npx eas-cli build --platform android
         # run: npx eas-cli build --platform android --non-interactive
