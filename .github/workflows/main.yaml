@@ -73,7 +73,6 @@ jobs:
           git add app.json
           git commit -m "chore: increment app versionCode [skip ci]"
           git push origin main
-          git pull origin master --rebase
 
       - name: Setup Expo
         if: ${{ steps.semantic.outputs.NEXT_VERSION }}
