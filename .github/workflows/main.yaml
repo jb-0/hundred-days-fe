@@ -65,12 +65,12 @@ jobs:
         with:
           file-path: './src/app.json'
 
-      - name: Setup git config
+      - name: Commit changes
         if: ${{ steps.semantic.outputs.NEXT_VERSION }}
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-          git add /src/app.json
+          git add app.json
           git commit -m "chore: increment app versionCode [skip ci]"
           git push origin main
           git pull origin master --rebase
