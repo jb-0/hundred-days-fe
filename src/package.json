@@ -11,8 +11,7 @@
   },
   "release": {
     "branches": [
-      "main",
-      "dev"
+      "main"
     ],
     "plugins": [
       "@semantic-release/commit-analyzer",
@@ -40,6 +39,12 @@
           "assets": [
             "app.json"
           ]
+        }
+      ],
+      [
+        "@semantic-release/exec",
+        {
+          "publishCmd": "bash ./publish.sh ${nextRelease.version}"
         }
       ]
     ]
@@ -92,6 +97,7 @@
   "devDependencies": {
     "@babel/core": "^7.12.9",
     "@google/semantic-release-replace-plugin": "^1.1.0",
+    "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@testing-library/dom": "^8.2.0",
     "@testing-library/jest-native": "^4.0.2",
